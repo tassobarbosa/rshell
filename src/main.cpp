@@ -13,17 +13,17 @@ void prompt(){
 }
 
 //clear the line from the first # to the end of the input
-void comment(char line[]){
+void comment(char line[],int linesize){
 	char * hashtag;
 	hashtag = strchr(line,'#');
 	if(hashtag!=NULL){		
-		 memset(&line[hashtag-line],0,sizeof(line));			
+		 memset(&line[hashtag-line],0,linesize);			
 	}
 }
 void execute(char *str[],int size){
 //for(int i=0;i<sizeof(str);i++) cout<<str[i]<<endl;
 
-char * newstr[size];
+char * newstr[256];
 char * connector;
 int i,j,aux;
 
@@ -31,20 +31,24 @@ int i,j,aux;
 		//newstr[0] receives commands, first parameter after a connector
 		newstr[0] = str[i];
 		aux=1;
+		//test command without flags carryng a ';'
+		connector = strchr(newstr[0],';');
+		if(connector!=NULL) newstr[0][connector-newstr[0]] = '\0';
+		else
+			for(j=i+1;j<size;j++){
+				connector = strchr(str[j],';');
+				if(connector!=NULL){
+				//erase the last character if ';'
+					str[j][connector-str[j]] = '\0';
+				}
 
-		for(j=i+1;j<size;j++){
-			connector = strchr(str[j],';');
-			if(connector!=NULL){
-			//erase the last character if ';'
-				str[j][connector-str[j]] = '\0';
-			}
-			//add flags to newstr
-			newstr[aux] = str[j];
-			aux++;
-			i = j;
+				//add flags to newstr
+				newstr[aux] = str[j];
+				aux++;
+				i = j;
 	
-			if(connector!=NULL) break;
-		}
+				if(connector!=NULL) break;
+			}
 
 	//	for(int k=0;k<aux;k++)cout<<"indice "<<k<<" "<<newstr[k]<<endl;
 	
@@ -53,10 +57,10 @@ int i,j,aux;
 			perror("There was an error with fork().");
 			exit(1);
 		}
-		else if(pid == 0){
-
-	  	 if(-1 == execvp(newstr[0], newstr))
-			perror("There was an error");
+		else if(pid == 0){	
+		  	 if(-1 == execvp(newstr[0], newstr)){
+				perror("There was an error");
+			}		
     	 		 exit(1);
 		}
 		else if(pid>0){
@@ -67,7 +71,6 @@ int i,j,aux;
 	
 		// clear the vector newstr in order to execute new commands
 		for(int k=0;k<aux;k++)newstr[k]='\0';
-
 	}
 }
 
@@ -75,8 +78,8 @@ int i,j,aux;
 
 int main(){
    int INPUTSIZE=256,index;
-   char input[INPUTSIZE];
-   char * str[INPUTSIZE];
+   char input[256];
+   char * str[256];
    char * pch;
 
    while(true){
@@ -86,7 +89,7 @@ int main(){
 	    cin.getline(input,INPUTSIZE);
 	}while(input[0]=='#');
 
-	comment(input);
+	comment(input,INPUTSIZE);
 
 	if(memcmp(input, "exit",4)==0) exit(0);
 
