@@ -1,0 +1,37 @@
+Script started on Tue 21 Oct 2014 03:16:14 PM PDT
+]0;tassoeb@tasso-ub-usa: ~/rshell/srctassoeb@tasso-ub-usa:~/rshell/src$ exit./a.outg++ -Wall -Werror -ansi -pedantic main.cpp[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cexit[Kg++ -Wall -Werror -ansi -pedantic main.cpp
+]0;tassoeb@tasso-ub-usa: ~/rshell/srctassoeb@tasso-ub-usa:~/rshell/src$ ./a.out
+tassoeb@tasso-ub-usa$ ls -l
+total 20
+-rwxrwxr-x 1 tassoeb tassoeb 14882 Oct 21 15:16 a.out
+-rw-rw-r-- 1 tassoeb tassoeb     0 Oct 21 15:16 exec
+-rw-rw-r-- 1 tassoeb tassoeb  3663 Oct 21 14:57 main.cpp
+tassoeb@tasso-ub-usa$ ls -a # test comment            after hashtag all ignored
+.  ..  a.out  exec  main.cpp
+tassoeb@tasso-ub-usa$ #tsti   esting a hashtag as first letter
+tassoeb@tasso-ub-usa$ tou test     ch test && ls # testing &&
+a.out  exec  main.cpp  test
+tassoeb@tasso-ub-usa$ inv cmd && pwd # testing invalid command                 un  existing comand   mand and     with &&
+There was an error: No such file or directory
+tassoeb@tasso-ub-usa$ mkdir newfolder || echo "hello usa"
+tassoeb@tasso-ub-usa$ ls  echo "e hello world" && ls && rm test && ls # testing multiple && as c     s 
+"hello world"
+a.out  exec  main.cpp  newfolder  test
+a.out  exec  main.cpp  newfolder
+tassoeb@tasso-ub-usa$ ls -a; pwd; rmdir newfolder; # testing semicolons
+.  ..  a.out  exec  main.cpp  newfolder
+/home/tassoeb/rshell/src
+tassoeb@tasso-ub-usa$ ps && echo "h i  i again"; pwd || touch test2 # testing multiple connectors in single line
+  PID TTY          TIME CMD
+ 6537 pts/11   00:00:00 bash
+ 6555 pts/11   00:00:00 a.out
+ 6585 pts/11   00:00:00 ps
+"hi again"
+/home/tassoeb/rshell/src
+tassoeb@tasso-ub-usa$ ls; #single command without flags and semicolons 
+a.out  exec  main.cpp
+tassoeb@tasso-ub-usa$ exit
+]0;tassoeb@tasso-ub-usa: ~/rshell/srctassoeb@tasso-ub-usa:~/rshell/src$ exit
+exit
+
+Script done on Tue 21 Oct 2014 03:20:53 PM PDT
