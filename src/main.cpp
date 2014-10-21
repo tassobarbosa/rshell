@@ -6,13 +6,14 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <sys/mman.h>
-
+#include <pwd.h>
 using namespace std;
 
 static int *glob_flag;
 
 //output login @ machine $
 void prompt(){
+struct passwd *log;
 	int pid = fork();
 		if(pid == -1){
 			perror("fork() presented error");
@@ -28,20 +29,12 @@ void prompt(){
 				host[4] = '\0';
 				perror("Error trying to get hostname");
 			}
-
-			char login[50];
-	
-			if (getlogin_r(login, sizeof(login)-1)) {
-				login[0] = 'l';
-				login[1] = 'o';
-				login[2] = 'g';
-				login[3] = 'i';
-				login[4] = 'n';
-				login[5] = '\0';
+			log = getpwuid(getuid());			
+			if(log == '\0'){
 				perror("Error trying to get user login");
 			}
 
-			cout << login << "@" << host << "$ ";
+			cout << log->pw_name << "@" << host << "$ ";
 			exit(1);
 			}else if(pid>0){
 				if(-1 == wait(0))
