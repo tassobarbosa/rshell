@@ -50,15 +50,6 @@ void prompt(){
 			}			 
 }
 
-//clear the line from the first # to the end of the input
-void comment(char line[],int linesize){
-	char * hashtag;
-	hashtag = strchr(line,'#');
-	if(hashtag!=NULL){		
-		 memset(&line[hashtag-line],0,linesize);			
-	}
-}
-
 void execute(char *str[],int size){
 
 char * newstr[256];
@@ -141,8 +132,8 @@ int i,j,aux;
 
 
 int main(){
-   int INPUTSIZE=256,index;
-   char input[256];
+   int index;
+   string line;
    char * str[256];
    char * pch;
 
@@ -150,10 +141,17 @@ int main(){
 	do{
 	    //output login @ machine $
 	    prompt();
-	    cin.getline(input,256);
-	}while(input[0]=='#');
+	    getline(cin,line);
+	}while(line[0]=='#');
 
-	comment(input,INPUTSIZE);
+	//look for '#', if find erase everything until the end of line
+	size_t found = line.find('#');
+	  if (found!=std::string::npos)
+		line.erase (found,line.length()-found);
+
+	//create a dynamic char that is a copy of input
+  	char * input = new char [line.length()+1];
+  	strcpy (input, line.c_str());
 
 	//built in function to finish program when typed 'EXIT'
 	if(memcmp(input, "exit",4)==0) exit(0);
