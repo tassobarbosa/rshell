@@ -8,8 +8,43 @@
 
 using namespace std;
 
+//output login @ machine $
 void prompt(){
-	cout<<"$ ";
+	int pid = fork();
+		if(pid == -1){
+			perror("fork() presented error");
+			exit(1);
+			}
+		else if(pid==0){
+			char host[50];
+			if ((gethostname(host, sizeof(host)-1))==-1) {
+				host[0] = 'h';
+				host[1] = 'o';
+				host[2] = 's';
+				host[3] = 't';
+				host[4] = '\0';
+				perror("Error trying to get hostname");
+			}
+
+			char login[50];
+	
+			if (getlogin_r(login, sizeof(login)-1)) {
+				login[0] = 'l';
+				login[1] = 'o';
+				login[2] = 'g';
+				login[3] = 'i';
+				login[4] = 'n';
+				login[5] = '\0';
+				perror("Error trying to get user login");
+			}
+
+			cout << login << "@" << host << "$ ";
+			exit(1);
+			}else if(pid>0){
+				if(-1 == wait(0))
+			   	perror("wait() presented error");
+		
+			}			 
 }
 
 //clear the line from the first # to the end of the input
@@ -21,7 +56,7 @@ void comment(char line[],int linesize){
 	}
 }
 void execute(char *str[],int size){
-//for(int i=0;i<sizeof(str);i++) cout<<str[i]<<endl;
+//for(int i=0;i<size;i++) cout<<str[i]<<endl;
 
 char * newstr[256];
 char * connector;
@@ -49,15 +84,14 @@ int i,j,aux;
 	
 				if(connector!=NULL) break;
 			}
-
-	//	for(int k=0;k<aux;k++)cout<<"indice "<<k<<" "<<newstr[k]<<endl;
+//	for(int g=0;g<aux+2;g++)cout<<"indice "<<g<<" "<<newstr[g]<<endl;
 	
 		int pid = fork();
 		if(pid == -1){
 			perror("There was an error with fork().");
 			exit(1);
 		}
-		else if(pid == 0){	
+		else if(pid == 0){					
 		  	 if(-1 == execvp(newstr[0], newstr)){
 				perror("There was an error");
 			}		
@@ -84,9 +118,8 @@ int main(){
 
    while(true){
 	do{
-	    //output login@machine$
-	    prompt();
-	    cin.getline(input,INPUTSIZE);
+	    prompt(); //output login @ machine $
+	    cin.getline(input,256);
 	}while(input[0]=='#');
 
 	comment(input,INPUTSIZE);
