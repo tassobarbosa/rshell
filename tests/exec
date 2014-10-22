@@ -1,0 +1,50 @@
+Script started on Tue 21 Oct 2014 10:31:31 PM PDT
+]0;tassoeb@tasso-ub-usa: ~/rshell/srctassoeb@tasso-ub-usa:~/rshell/src$ exit./a.outg++ -Wall -Werror -ansi -pedantic main.cpp[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cit pull[Kcd rshell[1Pgit pull++ -Wall -Werror -ansi -pedantic main.cpp
+]0;tassoeb@tasso-ub-usa: ~/rshell/srctassoeb@tasso-ub-usa:~/rshell/src$ g++ -Wall -Werror -ansi -pedantic main.cpp[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cexit[K[K[K[K[K./a.out
+tassoeb@tasso-ub-usa$ # testing comment as first letter
+tassoeb@tasso-ub-usa$ ps #  tes   after hashtag a all will be ignored ls;      
+  PID TTY          TIME CMD
+ 3184 pts/1    00:00:00 bash
+ 3202 pts/1    00:00:00 a.out
+ 3205 pts/1    00:00:00 ps
+tassoeb@tasso-ub-usa$ pwd #single inputs 
+/home/tassoeb/rshell/src
+tassoeb@tasso-ub-usa$ ls; #single input finishing with semicolon
+a.out  exec  main.cpp
+tassoeb@tasso-ub-usa$ ls -a
+.  ..  a.out  exec  main.cpp
+tassoeb@tasso-ub-usa$ #I will test mu  now multiple commands in one   on  line
+tassoeb@tasso-ub-usa$ touch test  ; echo "hello world"; ls -a -l -sh
+"hello world"
+total 32K
+4.0K drwxrwxr-x 2 tassoeb tassoeb 4.0K Oct 21 22:33 .
+4.0K drwxrwxr-x 6 tassoeb tassoeb 4.0K Oct 21 21:58 ..
+ 16K -rwxrwxr-x 1 tassoeb tassoeb  15K Oct 21 22:31 a.out
+   0 -rw-rw-r-- 1 tassoeb tassoeb    0 Oct 21 22:31 exec
+8.0K -rw-rw-r-- 1 tassoeb tassoeb 4.4K Oct 21 22:20 main.cpp
+   0 -rw-rw-r-- 1 tassoeb tassoeb    0 Oct 21 22:33 test
+tassoeb@tasso-ub-usa$ echo "hi again" && ls && cat test   #  
+"hi again"
+a.out  exec  main.cpp  test
+tassoeb@tasso-ub-usa$ ls mk  invalid command        command || mkdir newfolder || echo "testing OR"
+ls: cannot access invalidcommand: No such file or directory
+tassoeb@tasso-ub-usa$ ls &&   #  #verifying new folder
+a.out  exec  main.cpp  newfolder  test
+tassoeb@tasso-ub-usa$ ls && rm test; pwd || touch test2; ls -l #testing multiple commands with different connectors
+a.out  exec  main.cpp  newfolder  test
+/home/tassoeb/rshell/src
+tassoeb@tasso-ub-usa$ rmdir new f  folderl ; ls # testing rmdir
+a.out  exec  main.cpp
+tassoeb@tasso-ub-usa$ g++ main.cpp #compiling                     -Wall -Werror -ansi -pedantic main.cpp #compiling the program itself
+tassoeb@tasso-ub-usa$ ./a.out
+tassoeb@tasso-ub-usa$ #running program inside program
+tassoeb@tasso-ub-usa$ pwd
+/home/tassoeb/rshell/src
+tassoeb@tasso-ub-usa$ exit
+tassoeb@tasso-ub-usa$ #back to          exit    #back to first program
+tassoeb@tasso-ub-usa$ exit
+]0;tassoeb@tasso-ub-usa: ~/rshell/srctassoeb@tasso-ub-usa:~/rshell/src$ #back to shell
+]0;tassoeb@tasso-ub-usa: ~/rshell/srctassoeb@tasso-ub-usa:~/rshell/src$ exit
+exit
+
+Script done on Tue 21 Oct 2014 10:38:10 PM PDT
