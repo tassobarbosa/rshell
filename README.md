@@ -19,3 +19,6 @@ Once you have the repository cloned just type 'make' and it will build a /bin fo
 
 ###Bugs
 
+- The input size is not unlimited. It has a maximum of 512 characters;
+- Rshell will handle && and ||, in a order of precendence from left to right, if commands are separated (blank space) as shown in the example: ls -a && pwd
+- The "echo" command prints quotation marks: echo "hello world"; outputs "hello world"
