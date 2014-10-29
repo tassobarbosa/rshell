@@ -23,15 +23,42 @@ void ls(char **argv, int flag, char directory[]){
 			return;
 		}
 
-		//flag 0 means that no flag was set, display regular LS function
-		if(flag==0){
-			//avoid files starting with .
-			if(direntp->d_name[0]!='.')
-				cout<<direntp->d_name<<"  ";	
-		}else{
+		switch(flag){
+			//ls		
+			case 0:
+				//avoid files starting with .
+				if(direntp->d_name[0]!='.')
+					cout<<direntp->d_name<<"  ";			
+			break;
 
+			//ls -a
+			case 1:			
+				cout<<direntp->d_name<<"  ";			
+			break;		
 
+			//ls -l
+			case 2:
+			break;
 
+			//ls -al
+			case 3:
+			break;
+
+			//ls -R
+			case 4:
+			break;
+
+			//ls -aR
+			case 5:
+			break;
+
+			//ls -lR
+			case 6:
+			break;
+
+			//ls -laR
+			case 7:
+			break;
 		}
 
 	}
@@ -54,11 +81,11 @@ int main(int argc, char **argv){
 	for(int i=2; i<argc; i++){
 		//checking how many flag are passed
 		if(memcmp(argv[i],"-",1)==0){
-			find_flag = strchr(argv[i],'l');
+			find_flag = strchr(argv[i],'a');
 			if(find_flag != NULL){
 				flag+= 1;
 			}
-			find_flag = strchr(argv[i],'a');
+			find_flag = strchr(argv[i],'l');
 			if(find_flag != NULL){
 				flag+=2;
 			}
