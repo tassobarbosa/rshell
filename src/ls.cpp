@@ -98,6 +98,7 @@ void ls(char **argv, int flag, char directory[]){
 
 			//ls -al
 			case 3:
+				head(directory,direntp->d_name);
 			break;
 
 			//ls -R
