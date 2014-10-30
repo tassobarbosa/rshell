@@ -5,7 +5,60 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <string.h>
+#include <pwd.h>
+#include <sys/stat.h>
+#include <time.h>
+#include <stdlib.h>
 using namespace std;
+
+void head(char *path, char name[]){
+	struct stat sb;
+	struct passwd *log;
+	struct passwd *grp;
+	struct tm * timeinfo;
+	char buffer [80];
+
+	//create a full pathname, in case a directory was passed by parameter
+	char *path_name;
+	path_name =(char*) malloc(strlen(name)+1+strlen(path)+1);
+	strcpy(path_name,path);
+	strcat(path_name,"/");
+	strcat(path_name,name);	
+
+	if (stat(path_name, &sb) == -1) {
+		perror("stat");
+		exit(EXIT_FAILURE);
+	    }
+
+	free(path_name);
+
+	log = getpwuid(sb.st_uid);
+	if(log == '\0') perror("Login error");
+
+	grp = getpwuid(sb.st_gid);
+	if(grp == '\0') perror("Group error");
+	
+	timeinfo = localtime(&sb.st_mtime);
+	strftime(buffer,80, "%b %e %H:%M",timeinfo);
+
+	 printf( (S_ISDIR(sb.st_mode)) ? "d" : "-");
+    	 printf( (sb.st_mode & S_IRUSR) ? "r" : "-");
+    	 printf( (sb.st_mode & S_IWUSR) ? "w" : "-");
+   	 printf( (sb.st_mode & S_IXUSR) ? "x" : "-");
+   	 printf( (sb.st_mode & S_IRGRP) ? "r" : "-");
+   	 printf( (sb.st_mode & S_IWGRP) ? "w" : "-");
+    	 printf( (sb.st_mode & S_IXGRP) ? "x" : "-");
+    	 printf( (sb.st_mode & S_IROTH) ? "r" : "-");
+    	 printf( (sb.st_mode & S_IWOTH) ? "w" : "-");
+   	 printf( (sb.st_mode & S_IXOTH) ? "x" : "-");	
+	
+	cout<<" "<<sb.st_nlink<<" "
+	    <<log->pw_name<<" "
+	    <<grp->pw_name<<" "
+	    <<sb.st_size<<" "
+	    <<buffer<<" "
+	    <<name<<endl;
+}
 
 void ls(char **argv, int flag, char directory[]){
 
@@ -19,7 +72,7 @@ void ls(char **argv, int flag, char directory[]){
 	while((direntp = readdir(dirp))){
 
 		if(errno != 0){
-			 perror ("Readdir erro");
+			 perror ("Readdir erro");			
 			return;
 		}
 
@@ -38,6 +91,9 @@ void ls(char **argv, int flag, char directory[]){
 
 			//ls -l
 			case 2:
+				//avoid files starting with .
+				if(direntp->d_name[0]!='.')
+					head(directory,direntp->d_name);
 			break;
 
 			//ls -al
