@@ -9,6 +9,7 @@
 #include <sys/stat.h>
 #include <time.h>
 #include <stdlib.h>
+#include <vector>
 using namespace std;
 
 void getpath(char *pathname, char *path, char name[]){
@@ -59,7 +60,8 @@ void head(char path[], char name[]){
 }
 
 void ls(char **argv, int flag, char directory[]){
-
+	
+	string files;;
 	DIR *dirp;
 	if(!(dirp = opendir(directory))){
 		perror("Opendir erro");
@@ -67,15 +69,15 @@ void ls(char **argv, int flag, char directory[]){
 	}
 
 	dirent *direntp;
+	
 	while((direntp = readdir(dirp))){
 
 		if(errno != 0){
-			 perror ("Readdir erro");			
-			return;
+			 perror ("Readdir erro");				
 		}
 
 		char fullpath[512];
-
+		
 		switch(flag){
 			//ls		
 			case 0:
@@ -106,16 +108,20 @@ void ls(char **argv, int flag, char directory[]){
 
 			//ls -R
 			case 4:
+				//look for directories
 				if(direntp->d_type==DT_DIR){	
-				getpath(fullpath, directory, direntp->d_name);					
-					if(direntp->d_name[0]!='.'){		
-					//	cout<<".: "<<direntp->d_name<<endl;
-						ls(argv, flag,fullpath);
+					getpath(fullpath, directory, direntp->d_name);					
+					if(direntp->d_name[0]!='.'){					
+						//entry a level and call ls again
+						ls(argv, flag,fullpath);	
 					}
 					
-				}else if(direntp->d_type == DT_REG)
-						cout<<direntp->d_name<<"  ";
-					
+				}
+				//concatenate name of files in a string
+				if(direntp->d_name[0]!='.'){							
+					files+=direntp->d_name;
+					files+="  ";
+					}
 			break;
 
 			//ls -aR
@@ -130,8 +136,12 @@ void ls(char **argv, int flag, char directory[]){
 			case 7:
 			break;
 		}
-
 	}
+	//show files inside a directory in case of -R
+	if(flag==4)
+		cout<<"."<<directory<<": "<<endl<<files<<endl;
+
+	cout<<endl;
 	closedir(dirp);
 }
 
