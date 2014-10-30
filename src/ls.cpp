@@ -11,26 +11,24 @@
 #include <stdlib.h>
 using namespace std;
 
-void head(char *path, char name[]){
+void getpath(char *pathname, char *path, char name[]){
+	strcpy(pathname, path);
+	strcat(pathname, "/");
+	strcat(pathname, name);
+}
+
+
+void head(char path[], char name[]){
 	struct stat sb;
 	struct passwd *log;
 	struct passwd *grp;
 	struct tm * timeinfo;
 	char buffer [80];
 
-	//create a full pathname, in case a directory was passed by parameter
-	char *path_name;
-	path_name =(char*) malloc(strlen(name)+1+strlen(path)+1);
-	strcpy(path_name,path);
-	strcat(path_name,"/");
-	strcat(path_name,name);	
-
-	if (stat(path_name, &sb) == -1) {
+	if (stat(path, &sb) == -1) {
 		perror("stat");
 		exit(EXIT_FAILURE);
 	    }
-
-	free(path_name);
 
 	log = getpwuid(sb.st_uid);
 	if(log == '\0') perror("Login error");
@@ -76,6 +74,8 @@ void ls(char **argv, int flag, char directory[]){
 			return;
 		}
 
+		char fullpath[512];
+
 		switch(flag){
 			//ls		
 			case 0:
@@ -92,17 +92,30 @@ void ls(char **argv, int flag, char directory[]){
 			//ls -l
 			case 2:
 				//avoid files starting with .
-				if(direntp->d_name[0]!='.')
-					head(directory,direntp->d_name);
+				if(direntp->d_name[0]!='.'){
+					getpath(fullpath, directory, direntp->d_name);
+					head(fullpath, direntp->d_name);
+				}
 			break;
 
 			//ls -al
 			case 3:
-				head(directory,direntp->d_name);
+				getpath(fullpath, directory, direntp->d_name);
+				head(fullpath, direntp->d_name);
 			break;
 
 			//ls -R
 			case 4:
+				if(direntp->d_type==DT_DIR){	
+				getpath(fullpath, directory, direntp->d_name);					
+					if(direntp->d_name[0]!='.'){		
+					//	cout<<".: "<<direntp->d_name<<endl;
+						ls(argv, flag,fullpath);
+					}
+					
+				}else if(direntp->d_type == DT_REG)
+						cout<<direntp->d_name<<"  ";
+					
 			break;
 
 			//ls -aR
@@ -119,7 +132,6 @@ void ls(char **argv, int flag, char directory[]){
 		}
 
 	}
-	cout<<endl;
 	closedir(dirp);
 }
 
