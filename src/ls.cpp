@@ -125,7 +125,28 @@ void ls(char **argv, int flag, char directory[]){
 			break;
 
 			//ls -aR
-			case 5:
+			case 5:	
+				//look for directories
+				if(direntp->d_type==DT_DIR){	
+					getpath(fullpath, directory, direntp->d_name);					
+					//if is the actual directory . or the previous one .. just prints it
+					if(direntp->d_name[0]=='.' && direntp->d_name[1]=='\0'){
+						 files+=direntp->d_name;
+						 files+=" ";
+					}else if(direntp->d_name[0]=='.' && direntp->d_name[1]=='.' && direntp->d_name[2]=='\0'){
+						 files+=direntp->d_name;
+						 files+=" ";
+						}else {					
+							//entry a level and call ls again
+							ls(argv, flag,fullpath);	
+						 }
+					
+				}
+				//concatenate name of files in a string
+				if(direntp->d_name[0]!='.'){							
+					files+=direntp->d_name;
+					files+="  ";
+					}		
 			break;
 
 			//ls -lR
@@ -138,7 +159,7 @@ void ls(char **argv, int flag, char directory[]){
 		}
 	}
 	//show files inside a directory in case of -R
-	if(flag==4)
+	if(flag==4 || flag==5)
 		cout<<"."<<directory<<": "<<endl<<files<<endl;
 
 	cout<<endl;
