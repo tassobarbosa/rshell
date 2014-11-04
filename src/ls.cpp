@@ -9,7 +9,8 @@
 #include <sys/stat.h>
 #include <time.h>
 #include <stdlib.h>
-#include <vector>
+#include <string>
+#include <sstream>
 using namespace std;
 
 void getpath(char *pathname, char *path, char name[]){
@@ -19,7 +20,8 @@ void getpath(char *pathname, char *path, char name[]){
 }
 
 
-void head(char path[], char name[]){
+string head(char path[], char name[]){
+	string line;
 	struct stat sb;
 	struct passwd *log;
 	struct passwd *grp;
@@ -40,28 +42,37 @@ void head(char path[], char name[]){
 	timeinfo = localtime(&sb.st_mtime);
 	strftime(buffer,80, "%b %e %H:%M",timeinfo);
 
-	 printf( (S_ISDIR(sb.st_mode)) ? "d" : "-");
-    	 printf( (sb.st_mode & S_IRUSR) ? "r" : "-");
-    	 printf( (sb.st_mode & S_IWUSR) ? "w" : "-");
-   	 printf( (sb.st_mode & S_IXUSR) ? "x" : "-");
-   	 printf( (sb.st_mode & S_IRGRP) ? "r" : "-");
-   	 printf( (sb.st_mode & S_IWGRP) ? "w" : "-");
-    	 printf( (sb.st_mode & S_IXGRP) ? "x" : "-");
-    	 printf( (sb.st_mode & S_IROTH) ? "r" : "-");
-    	 printf( (sb.st_mode & S_IWOTH) ? "w" : "-");
-   	 printf( (sb.st_mode & S_IXOTH) ? "x" : "-");	
+	 line=( (S_ISDIR(sb.st_mode)) ? "d" : "-");
+    	 line+=( (sb.st_mode & S_IRUSR) ? "r" : "-");
+    	 line+=( (sb.st_mode & S_IWUSR) ? "w" : "-");
+   	 line+=( (sb.st_mode & S_IXUSR) ? "x" : "-");
+   	 line+=( (sb.st_mode & S_IRGRP) ? "r" : "-");
+   	 line+=( (sb.st_mode & S_IWGRP) ? "w" : "-");
+    	 line+=( (sb.st_mode & S_IXGRP) ? "x" : "-");
+    	 line+=( (sb.st_mode & S_IROTH) ? "r" : "-");
+    	 line+=( (sb.st_mode & S_IWOTH) ? "w" : "-");
+   	 line+=( (sb.st_mode & S_IXOTH) ? "x" : "-");	
 	
-	cout<<" "<<sb.st_nlink<<" "
-	    <<log->pw_name<<" "
-	    <<grp->pw_name<<" "
-	    <<sb.st_size<<" "
-	    <<buffer<<" "
-	    <<name<<endl;
+	stringstream aux;
+	aux<<sb.st_nlink;
+	string s_aux = aux.str();	
+	char statsize[256];
+	sprintf(statsize,"%jd", sb.st_size);
+
+	line+=" ";
+	line+=s_aux; line+=" ";
+	line+=log->pw_name; line+=" ";
+	line+=grp->pw_name; line+=" ";
+	line+=statsize; line+=" ";
+	line+=buffer; line+=" ";
+	line+=name; line+='\n';
+
+	return line;
 }
 
 void ls(char **argv, int flag, char directory[]){
 	
-	string files;;
+	string files;
 	DIR *dirp;
 	if(!(dirp = opendir(directory))){
 		perror("Opendir erro");
@@ -96,14 +107,16 @@ void ls(char **argv, int flag, char directory[]){
 				//avoid files starting with .
 				if(direntp->d_name[0]!='.'){
 					getpath(fullpath, directory, direntp->d_name);
-					head(fullpath, direntp->d_name);
+					files = head(fullpath, direntp->d_name);
+					cout<<files;
 				}
 			break;
 
 			//ls -al
 			case 3:
 				getpath(fullpath, directory, direntp->d_name);
-				head(fullpath, direntp->d_name);
+				files = head(fullpath, direntp->d_name);
+				cout<<files;
 			break;
 
 			//ls -R
@@ -151,18 +164,55 @@ void ls(char **argv, int flag, char directory[]){
 
 			//ls -lR
 			case 6:
+				//look for directories
+				if(direntp->d_type==DT_DIR){	
+					getpath(fullpath, directory, direntp->d_name);					
+					if(direntp->d_name[0]!='.'){					
+						//entry a level and call ls again
+						ls(argv, flag,fullpath);	
+					}
+					
+				}
+				//concatenate name of files in a string
+				if(direntp->d_name[0]!='.'){							
+					getpath(fullpath, directory, direntp->d_name);
+					files+= head(fullpath, direntp->d_name);		
+					}
+		
 			break;
 
 			//ls -laR
 			case 7:
+				//look for directories
+				if(direntp->d_type==DT_DIR){	
+					getpath(fullpath, directory, direntp->d_name);					
+					//if is the actual directory . or the previous one .. just prints it
+					if(direntp->d_name[0]=='.' && direntp->d_name[1]=='\0'){						 
+						files+= head(fullpath, direntp->d_name);		
+					}
+					else if(direntp->d_name[0]=='.' && direntp->d_name[1]=='.' && direntp->d_name[2]=='\0'){ 
+						files+= head(fullpath, direntp->d_name);		
+						} else {					
+							//entry a level and call ls again
+							ls(argv, flag,fullpath);	
+						 }
+					
+				}
+				//concatenate name of files in a string
+				if(direntp->d_name[0]!='.'){							
+					getpath(fullpath, directory, direntp->d_name);
+					files+= head(fullpath, direntp->d_name);		
+					}
 			break;
 		}
 	}
 	//show files inside a directory in case of -R
-	if(flag==4 || flag==5)
-		cout<<"."<<directory<<": "<<endl<<files<<endl;
+	if(flag==4 || flag==5 || flag == 6 || flag ==7)
+		cout<<"."<<directory<<": "<<endl<<files<<endl;	
 
-	cout<<endl;
+	//formating purpose
+	if(flag==4) cout<<endl;
+
 	closedir(dirp);
 }
 
