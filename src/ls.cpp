@@ -19,19 +19,30 @@ void getpath(char *pathname, char *path, char name[]){
 	strcat(pathname, name);
 }
 
+void changeColor(int background, struct stat fileStat){
+	if(background == 1) cout<<"\x1b[47m";
 
-string head(char path[], char name[]){
+	if(S_ISDIR(fileStat.st_mode))
+		cout<<"\x1b[34m";
+	else if(fileStat.st_mode & S_IXUSR)
+		cout<<"\x1b[32m";
+}
+
+void resetColor(){
+	cout<<"\x1b[0m";
+}
+
+string head(char path[], char name[], struct stat sb){
 	string line;
-	struct stat sb;
 	struct passwd *log;
 	struct passwd *grp;
 	struct tm * timeinfo;
 	char buffer [80];
 
-	if (stat(path, &sb) == -1) {
-		perror("stat");
-		exit(EXIT_FAILURE);
-	    }
+//	if (stat(path, &sb) == -1) {
+//		perror("stat");
+//		exit(EXIT_FAILURE);
+//	    }
 
 	log = getpwuid(sb.st_uid);
 	if(log == '\0') perror("Login error");
@@ -84,17 +95,27 @@ void ls(char **argv, int flag, char directory[]){
 	while((direntp = readdir(dirp))){
 
 		if(errno != 0){
-			 perror ("Readdir erro");				
+			 perror ("Readdir erro");			
 		}
 
 		char fullpath[512];
-		
+
+		getpath(fullpath, directory, direntp->d_name);
+		struct stat fileStat;
+		if(stat(fullpath, &fileStat) == -1){
+			perror("Stat error");
+			return;
+		}
+	
 		switch(flag){
 			//ls		
 			case 0:
 				//avoid files starting with .
-				if(direntp->d_name[0]!='.')
-					cout<<direntp->d_name<<"  ";			
+				if(direntp->d_name[0]!='.'){
+					changeColor(0,fileStat);
+					cout<<direntp->d_name<<"  ";	
+					resetColor();
+				}
 			break;
 
 			//ls -a
@@ -106,16 +127,16 @@ void ls(char **argv, int flag, char directory[]){
 			case 2:
 				//avoid files starting with .
 				if(direntp->d_name[0]!='.'){
-					getpath(fullpath, directory, direntp->d_name);
-					files = head(fullpath, direntp->d_name);
+			//		getpath(fullpath, directory, direntp->d_name);
+					files = head(fullpath, direntp->d_name, fileStat);
 					cout<<files;
 				}
 			break;
 
 			//ls -al
 			case 3:
-				getpath(fullpath, directory, direntp->d_name);
-				files = head(fullpath, direntp->d_name);
+			//	getpath(fullpath, directory, direntp->d_name);
+				files = head(fullpath, direntp->d_name,fileStat);
 				cout<<files;
 			break;
 
@@ -123,7 +144,7 @@ void ls(char **argv, int flag, char directory[]){
 			case 4:
 				//look for directories
 				if(direntp->d_type==DT_DIR){	
-					getpath(fullpath, directory, direntp->d_name);					
+			//		getpath(fullpath, directory, direntp->d_name);					
 					if(direntp->d_name[0]!='.'){					
 						//entry a level and call ls again
 						ls(argv, flag,fullpath);	
@@ -141,7 +162,7 @@ void ls(char **argv, int flag, char directory[]){
 			case 5:	
 				//look for directories
 				if(direntp->d_type==DT_DIR){	
-					getpath(fullpath, directory, direntp->d_name);					
+			//		getpath(fullpath, directory, direntp->d_name);					
 					//if is the actual directory . or the previous one .. just prints it
 					if(direntp->d_name[0]=='.' && direntp->d_name[1]=='\0'){
 						 files+=direntp->d_name;
@@ -166,7 +187,7 @@ void ls(char **argv, int flag, char directory[]){
 			case 6:
 				//look for directories
 				if(direntp->d_type==DT_DIR){	
-					getpath(fullpath, directory, direntp->d_name);					
+			//		getpath(fullpath, directory, direntp->d_name);					
 					if(direntp->d_name[0]!='.'){					
 						//entry a level and call ls again
 						ls(argv, flag,fullpath);	
@@ -175,8 +196,8 @@ void ls(char **argv, int flag, char directory[]){
 				}
 				//concatenate name of files in a string
 				if(direntp->d_name[0]!='.'){							
-					getpath(fullpath, directory, direntp->d_name);
-					files+= head(fullpath, direntp->d_name);		
+			//		getpath(fullpath, directory, direntp->d_name);
+					files+= head(fullpath, direntp->d_name, fileStat);		
 					}
 		
 			break;
@@ -185,13 +206,13 @@ void ls(char **argv, int flag, char directory[]){
 			case 7:
 				//look for directories
 				if(direntp->d_type==DT_DIR){	
-					getpath(fullpath, directory, direntp->d_name);					
+			//		getpath(fullpath, directory, direntp->d_name);					
 					//if is the actual directory . or the previous one .. just prints it
 					if(direntp->d_name[0]=='.' && direntp->d_name[1]=='\0'){						 
-						files+= head(fullpath, direntp->d_name);		
+						files+= head(fullpath, direntp->d_name, fileStat);		
 					}
 					else if(direntp->d_name[0]=='.' && direntp->d_name[1]=='.' && direntp->d_name[2]=='\0'){ 
-						files+= head(fullpath, direntp->d_name);		
+						files+= head(fullpath, direntp->d_name, fileStat);		
 						} else {					
 							//entry a level and call ls again
 							ls(argv, flag,fullpath);	
@@ -200,8 +221,8 @@ void ls(char **argv, int flag, char directory[]){
 				}
 				//concatenate name of files in a string
 				if(direntp->d_name[0]!='.'){							
-					getpath(fullpath, directory, direntp->d_name);
-					files+= head(fullpath, direntp->d_name);		
+			//		getpath(fullpath, directory, direntp->d_name);
+					files+= head(fullpath, direntp->d_name, fileStat);		
 					}
 			break;
 		}
@@ -211,7 +232,7 @@ void ls(char **argv, int flag, char directory[]){
 		cout<<"."<<directory<<": "<<endl<<files<<endl;	
 
 	//formating purpose
-	if(flag==4) cout<<endl;
+	if(flag==4 || flag == 0) cout<<endl;
 
 	closedir(dirp);
 }
