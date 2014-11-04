@@ -39,11 +39,6 @@ string head(char path[], char name[], struct stat sb){
 	struct tm * timeinfo;
 	char buffer [80];
 
-//	if (stat(path, &sb) == -1) {
-//		perror("stat");
-//		exit(EXIT_FAILURE);
-//	    }
-
 	log = getpwuid(sb.st_uid);
 	if(log == '\0') perror("Login error");
 
@@ -120,14 +115,20 @@ void ls(char **argv, int flag, char directory[]){
 
 			//ls -a
 			case 1:			
-				cout<<direntp->d_name<<"  ";			
+				if(direntp->d_name[0]=='.')
+					changeColor(1,fileStat);
+				else
+					changeColor(0,fileStat);
+
+				cout<<direntp->d_name;
+				resetColor();
+				cout<<"  ";
 			break;		
 
 			//ls -l
 			case 2:
 				//avoid files starting with .
 				if(direntp->d_name[0]!='.'){
-			//		getpath(fullpath, directory, direntp->d_name);
 					files = head(fullpath, direntp->d_name, fileStat);
 					cout<<files;
 				}
@@ -135,7 +136,6 @@ void ls(char **argv, int flag, char directory[]){
 
 			//ls -al
 			case 3:
-			//	getpath(fullpath, directory, direntp->d_name);
 				files = head(fullpath, direntp->d_name,fileStat);
 				cout<<files;
 			break;
@@ -144,7 +144,6 @@ void ls(char **argv, int flag, char directory[]){
 			case 4:
 				//look for directories
 				if(direntp->d_type==DT_DIR){	
-			//		getpath(fullpath, directory, direntp->d_name);					
 					if(direntp->d_name[0]!='.'){					
 						//entry a level and call ls again
 						ls(argv, flag,fullpath);	
@@ -162,7 +161,6 @@ void ls(char **argv, int flag, char directory[]){
 			case 5:	
 				//look for directories
 				if(direntp->d_type==DT_DIR){	
-			//		getpath(fullpath, directory, direntp->d_name);					
 					//if is the actual directory . or the previous one .. just prints it
 					if(direntp->d_name[0]=='.' && direntp->d_name[1]=='\0'){
 						 files+=direntp->d_name;
@@ -187,7 +185,6 @@ void ls(char **argv, int flag, char directory[]){
 			case 6:
 				//look for directories
 				if(direntp->d_type==DT_DIR){	
-			//		getpath(fullpath, directory, direntp->d_name);					
 					if(direntp->d_name[0]!='.'){					
 						//entry a level and call ls again
 						ls(argv, flag,fullpath);	
@@ -206,7 +203,6 @@ void ls(char **argv, int flag, char directory[]){
 			case 7:
 				//look for directories
 				if(direntp->d_type==DT_DIR){	
-			//		getpath(fullpath, directory, direntp->d_name);					
 					//if is the actual directory . or the previous one .. just prints it
 					if(direntp->d_name[0]=='.' && direntp->d_name[1]=='\0'){						 
 						files+= head(fullpath, direntp->d_name, fileStat);		
@@ -221,7 +217,6 @@ void ls(char **argv, int flag, char directory[]){
 				}
 				//concatenate name of files in a string
 				if(direntp->d_name[0]!='.'){							
-			//		getpath(fullpath, directory, direntp->d_name);
 					files+= head(fullpath, direntp->d_name, fileStat);		
 					}
 			break;
@@ -232,7 +227,7 @@ void ls(char **argv, int flag, char directory[]){
 		cout<<"."<<directory<<": "<<endl<<files<<endl;	
 
 	//formating purpose
-	if(flag==4 || flag == 0) cout<<endl;
+	if(flag==4 || flag == 0 || flag == 1) cout<<endl;
 
 	closedir(dirp);
 }
