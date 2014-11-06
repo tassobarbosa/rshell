@@ -68,7 +68,7 @@ void head(char path[], char name[], struct stat sb, int background){
 }
 
 void ls(char **argv, int flag, char directory[]){
-	int show = 0;
+	bool showFiles = false;
 	DIR *dirp;
 	if(!(dirp = opendir(directory))){
 		perror("Opendir erro");
@@ -133,34 +133,23 @@ void ls(char **argv, int flag, char directory[]){
 
 			//ls -R
 			case 4:
-
-/*				if(show==0){
-cout<<"dir1: "<<directory<<endl;
-				show = 1;
-				DIR *dirp2;
-				if(!(dirp2 = opendir(directory))){
-					perror("Opendir erro");
-					return;
+				//has this directory shown its files?
+				if(!showFiles){
+					showFiles = true;
+					//show actual directory
+					cout<<directory<<":"<<endl;
+					//display its files
+                                        ls(argv, 0, directory);
+                                        cout<<endl;	
 				}
-
-				dirent *direntp2;
-				while((direntp2 = readdir(dirp2))){
-
-					if(errno != 0){
-						 perror ("Readdir erro");			
-						return;
-					}
-					//avoid files starting with .
-					if(direntp2->d_name[0]!='.')
-						cout<<direntp2->d_name<<"  ";
-				}}
+				//after showing the files, apply -R function
+				//calling ls() to display the son directory
 				if(direntp->d_type==DT_DIR){	
 					if(direntp->d_name[0]!='.'){					
 						//entry a level and call ls again
 						ls(argv, flag,fullpath);	
 					}					
-				}*/
-
+				}
 			break;
 
 			//ls -aR
@@ -177,7 +166,6 @@ cout<<"dir1: "<<directory<<endl;
 		}
 
 	}
-	cout<<endl;
 	closedir(dirp);
 }
 
@@ -221,6 +209,8 @@ int main(int argc, char **argv){
 
 	ls(argv, flag, directory);
 
+        if(flag==0 || flag == 1) //formatting purpose
+                cout<<endl;
 	delete[] directory;
 
 	return 0;
