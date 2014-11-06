@@ -67,7 +67,7 @@ void head(char path[], char name[], struct stat sb, int background){
 	    cout<<endl;
 }
 
-void ls(char **argv, int flag, char directory[]){
+void ls(int flag, char directory[]){
 	bool showFiles = false;
 	DIR *dirp;
 	if(!(dirp = opendir(directory))){
@@ -139,7 +139,51 @@ void ls(char **argv, int flag, char directory[]){
 					//show actual directory
 					cout<<directory<<":"<<endl;
 					//display its files
-                                        ls(argv, 0, directory);
+                                        ls(0, directory);
+                                        cout<<endl;	
+				}
+				//after showing the files, apply -R function
+				//calling ls() to display the son directory
+				if(direntp->d_type==DT_DIR){	
+					if(direntp->d_name[0]!='.'){
+                                                cout<<endl;					
+						//entry a level and call ls again
+						ls(flag,fullpath);
+                                        }										
+				}
+			break;
+
+			//ls -aR
+			case 5:
+				//has this directory shown its files?
+				if(!showFiles){
+					showFiles = true;
+					//show actual directory
+					cout<<directory<<":"<<endl;
+					//display its files
+                                        ls(1, directory);
+                                        cout<<endl<<endl;	
+				}
+				//after showing the files, apply -R function
+				//calling ls() to display the son directory
+				if(direntp->d_type==DT_DIR){	
+					if((direntp->d_name[0]=='.'&& direntp->d_name[1]=='\0') || (direntp->d_name[0]=='.' && direntp->d_name[1]=='.' && direntp->d_name[2]=='\0'));
+                                        else{					
+						//entry a level and call ls again
+						ls(flag,fullpath);	
+					}					
+				}
+			break;
+
+			//ls -lR
+			case 6:
+				//has this directory shown its files?
+				if(!showFiles){
+					showFiles = true;
+					//show actual directory
+					cout<<directory<<":"<<endl;
+					//display its files
+                                        ls( 2, directory);
                                         cout<<endl;	
 				}
 				//after showing the files, apply -R function
@@ -147,21 +191,31 @@ void ls(char **argv, int flag, char directory[]){
 				if(direntp->d_type==DT_DIR){	
 					if(direntp->d_name[0]!='.'){					
 						//entry a level and call ls again
-						ls(argv, flag,fullpath);	
+						ls(flag,fullpath);	
 					}					
 				}
 			break;
 
-			//ls -aR
-			case 5:
-			break;
-
-			//ls -lR
-			case 6:
-			break;
-
 			//ls -laR
 			case 7:
+				//has this directory shown its files?
+				if(!showFiles){
+					showFiles = true;
+					//show actual directory
+					cout<<directory<<":"<<endl;
+					//display its files
+                                        ls(3, directory);
+                                        cout<<endl;	
+				}
+				//after showing the files, apply -R function
+				//calling ls() to display the son directory
+				if(direntp->d_type==DT_DIR){	
+					if((direntp->d_name[0]=='.'&& direntp->d_name[1]=='\0') || (direntp->d_name[0]=='.' && direntp->d_name[1]=='.' && direntp->d_name[2]=='\0'));
+                                        else{					
+						//entry a level and call ls again
+						ls(flag,fullpath);	
+					}					
+				}
 			break;
 		}
 
@@ -177,7 +231,7 @@ int main(int argc, char **argv){
 
 	//in case first parameter is not 'ls'
 	if(memcmp(argv[1],"ls",2)!=0){
-		cout<<"command not valid"<<endl;
+		cout<<"first parameter must be ls"<<endl;
 		return 0;	
 	}
 
@@ -207,10 +261,8 @@ int main(int argc, char **argv){
 	char * directory = new char[path_folder.length()+1];
 	strcpy(directory, path_folder.c_str());
 
-	ls(argv, flag, directory);
-
-        if(flag==0 || flag == 1) //formatting purpose
-                cout<<endl;
+	ls(flag, directory);
+        if(flag == 0 || flag ==1) cout<<endl;
 	delete[] directory;
 
 	return 0;
