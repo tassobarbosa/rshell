@@ -1,0 +1,586 @@
+Script started on Fri 07 Nov 2014 02:52:23 PM PST
+]0;tassoeb@tasso-ub-usa: ~/rshell/srctassoeb@tasso-ub-usa:~/rshell/src$ .[Kg++ ls.cpp
+]0;tassoeb@tasso-ub-usa: ~/rshell/srctassoeb@tasso-ub-usa:~/rshell/src$ cppchek[Kck ls.cpp
+Checking ls.cpp...
+]0;tassoeb@tasso-ub-usa: ~/rshell/srctassoeb@tasso-ub-usa:~/rshell/src$ ./a.o[K[K[K[K[Kvalgrind ./a.out
+==4770== Memcheck, a memory error detector
+==4770== Copyright (C) 2002-2013, and GNU GPL'd, by Julian Seward et al.
+==4770== Using Valgrind-3.10.0.SVN and LibVEX; rerun with -h for copyright info
+==4770== Command: ./a.out
+==4770== 
+cp.cpp  [0mTimer.h~  [0m[34mftest  [0mTimer.h  [0mpreviousls.cpp  [0m[32ma.out  [0mlsrun  [0mls.cpp  [0mmain.cpp  [0m
+==4770== 
+==4770== HEAP SUMMARY:
+==4770==     in use at exit: 25 bytes in 1 blocks
+==4770==   total heap usage: 4 allocs, 3 frees, 32,915 bytes allocated
+==4770== 
+==4770== LEAK SUMMARY:
+==4770==    definitely lost: 25 bytes in 1 blocks
+==4770==    indirectly lost: 0 bytes in 0 blocks
+==4770==      possibly lost: 0 bytes in 0 blocks
+==4770==    still reachable: 0 bytes in 0 blocks
+==4770==         suppressed: 0 bytes in 0 blocks
+==4770== Rerun with --leak-check=full to see details of leaked memory
+==4770== 
+==4770== For counts of detected and suppressed errors, rerun with: -v
+==4770== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+]0;tassoeb@tasso-ub-usa: ~/rshell/srctassoeb@tasso-ub-usa:~/rshell/src$ valgrind ./a.out -a
+==4771== Memcheck, a memory error detector
+==4771== Copyright (C) 2002-2013, and GNU GPL'd, by Julian Seward et al.
+==4771== Using Valgrind-3.10.0.SVN and LibVEX; rerun with -h for copyright info
+==4771== Command: ./a.out -a
+==4771== 
+cp.cpp[0m  Timer.h~[0m  [34mftest[0m  Timer.h[0m  previousls.cpp[0m  [47m[34m.[0m  [47m.ls.cpp.swp[0m  [32ma.out[0m  lsrun[0m  ls.cpp[0m  [47m[34m..[0m  main.cpp[0m  
+==4771== 
+==4771== HEAP SUMMARY:
+==4771==     in use at exit: 25 bytes in 1 blocks
+==4771==   total heap usage: 4 allocs, 3 frees, 32,915 bytes allocated
+==4771== 
+==4771== LEAK SUMMARY:
+==4771==    definitely lost: 25 bytes in 1 blocks
+==4771==    indirectly lost: 0 bytes in 0 blocks
+==4771==      possibly lost: 0 bytes in 0 blocks
+==4771==    still reachable: 0 bytes in 0 blocks
+==4771==         suppressed: 0 bytes in 0 blocks
+==4771== Rerun with --leak-check=full to see details of leaked memory
+==4771== 
+==4771== For counts of detected and suppressed errors, rerun with: -v
+==4771== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+]0;tassoeb@tasso-ub-usa: ~/rshell/srctassoeb@tasso-ub-usa:~/rshell/src$ valgrind ./a.out -a[K -a[1P[1P[1P[1P[1P[1P[1P[1P[1P[C[C[C[C[C[C[C[C[C[C[Kvalgrind ./a.out -l
+==4772== Memcheck, a memory error detector
+==4772== Copyright (C) 2002-2013, and GNU GPL'd, by Julian Seward et al.
+==4772== Using Valgrind-3.10.0.SVN and LibVEX; rerun with -h for copyright info
+==4772== Command: ./a.out -l
+==4772== 
+total 56
+-rw-rw-r-- 8 1 tassoeb tassoeb 3818 Nov  7 13:27 cp.cpp[0m
+-rw-rw-r-- 0 1 tassoeb tassoeb 0 Nov  7 13:33 Timer.h~[0m
+drwxrwxr-x 8 3 tassoeb tassoeb 4096 Oct 30 13:26 [34mftest[0m
+-rw-rw-r-- 8 1 tassoeb tassoeb 2462 Nov  7 13:33 Timer.h[0m
+-rw-rw-r-- 16 1 tassoeb tassoeb 6441 Nov  6 00:15 previousls.cpp[0m
+-rwxrwxr-x 40 1 tassoeb tassoeb 19630 Nov  7 14:52 [32ma.out[0m
+-rw-rw-r-- 0 1 tassoeb tassoeb 0 Nov  7 14:52 lsrun[0m
+-rw-rw-r-- 16 1 tassoeb tassoeb 6924 Nov  7 13:28 ls.cpp[0m
+-rw-rw-r-- 16 1 tassoeb tassoeb 4413 Oct 21 22:50 main.cpp[0m
+==4772== 
+==4772== HEAP SUMMARY:
+==4772==     in use at exit: 25 bytes in 1 blocks
+==4772==   total heap usage: 106 allocs, 105 frees, 88,122 bytes allocated
+==4772== 
+==4772== LEAK SUMMARY:
+==4772==    definitely lost: 25 bytes in 1 blocks
+==4772==    indirectly lost: 0 bytes in 0 blocks
+==4772==      possibly lost: 0 bytes in 0 blocks
+==4772==    still reachable: 0 bytes in 0 blocks
+==4772==         suppressed: 0 bytes in 0 blocks
+==4772== Rerun with --leak-check=full to see details of leaked memory
+==4772== 
+==4772== For counts of detected and suppressed errors, rerun with: -v
+==4772== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+]0;tassoeb@tasso-ub-usa: ~/rshell/srctassoeb@tasso-ub-usa:~/rshell/src$ valgrind ./a.out -l[KR
+==4774== Memcheck, a memory error detector
+==4774== Copyright (C) 2002-2013, and GNU GPL'd, by Julian Seward et al.
+==4774== Using Valgrind-3.10.0.SVN and LibVEX; rerun with -h for copyright info
+==4774== Command: ./a.out -R
+==4774== 
+/home/tassoeb/rshell/src:
+cp.cpp  [0mTimer.h~  [0m[34mftest  [0mTimer.h  [0mpreviousls.cpp  [0m[32ma.out  [0mlsrun  [0mls.cpp  [0mmain.cpp  [0m
+
+/home/tassoeb/rshell/src/ftest:
+[34mf2test  [0mdoc2  [0mdoc1  [0m
+
+/home/tassoeb/rshell/src/ftest/f2test:
+doc3  [0m
+==4774== 
+==4774== HEAP SUMMARY:
+==4774==     in use at exit: 25 bytes in 1 blocks
+==4774==   total heap usage: 9 allocs, 8 frees, 196,995 bytes allocated
+==4774== 
+==4774== LEAK SUMMARY:
+==4774==    definitely lost: 25 bytes in 1 blocks
+==4774==    indirectly lost: 0 bytes in 0 blocks
+==4774==      possibly lost: 0 bytes in 0 blocks
+==4774==    still reachable: 0 bytes in 0 blocks
+==4774==         suppressed: 0 bytes in 0 blocks
+==4774== Rerun with --leak-check=full to see details of leaked memory
+==4774== 
+==4774== For counts of detected and suppressed errors, rerun with: -v
+==4774== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+]0;tassoeb@tasso-ub-usa: ~/rshell/srctassoeb@tasso-ub-usa:~/rshell/src$ valgrind ./a.out -R[1P[1P[1P[1P[1P[1P[1P[1P[1P[C[C[C[C[C[C[C[C[C[C[KalR
+/home/tassoeb/rshell/src:
+total 84
+-rw-rw-r-- 8 1 tassoeb tassoeb 3818 Nov  7 13:27 cp.cpp[0m
+-rw-rw-r-- 0 1 tassoeb tassoeb 0 Nov  7 13:33 Timer.h~[0m
+drwxrwxr-x 8 3 tassoeb tassoeb 4096 Oct 30 13:26 [34mftest[0m
+-rw-rw-r-- 8 1 tassoeb tassoeb 2462 Nov  7 13:33 Timer.h[0m
+-rw-rw-r-- 16 1 tassoeb tassoeb 6441 Nov  6 00:15 previousls.cpp[0m
+drwxrwxr-x 8 3 tassoeb tassoeb 4096 Nov  7 14:52 [47m[34m.[0m
+-rw-r--r-- 32 1 tassoeb tassoeb 16384 Nov  7 13:44 [47m.ls.cpp.swp[0m
+-rwxrwxr-x 40 1 tassoeb tassoeb 19630 Nov  7 14:52 [32ma.out[0m
+-rw-rw-r-- 8 1 tassoeb tassoeb 4096 Nov  7 14:53 lsrun[0m
+-rw-rw-r-- 16 1 tassoeb tassoeb 6924 Nov  7 13:28 ls.cpp[0m
+drwxrwxr-x 8 6 tassoeb tassoeb 4096 Nov  7 14:45 [47m[34m..[0m
+-rw-rw-r-- 16 1 tassoeb tassoeb 4413 Oct 21 22:50 main.cpp[0m
+
+/home/tassoeb/rshell/src/ftest:
+total 12
+drwxrwxr-x 8 2 tassoeb tassoeb 4096 Oct 30 12:04 [34mf2test[0m
+drwxrwxr-x 8 3 tassoeb tassoeb 4096 Oct 30 13:26 [47m[34m.[0m
+-rw-rw-r-- 0 1 tassoeb tassoeb 0 Oct 30 11:57 doc2[0m
+-rw-rw-r-- 0 1 tassoeb tassoeb 0 Oct 30 11:57 doc1[0m
+drwxrwxr-x 8 3 tassoeb tassoeb 4096 Nov  7 14:52 [47m[34m..[0m
+
+/home/tassoeb/rshell/src/ftest/f2test:
+total 8
+drwxrwxr-x 8 2 tassoeb tassoeb 4096 Oct 30 12:04 [47m[34m.[0m
+-rw-rw-r-- 0 1 tassoeb tassoeb 0 Oct 30 11:58 doc3[0m
+drwxrwxr-x 8 3 tassoeb tassoeb 4096 Oct 30 13:26 [47m[34m..[0m
+
+]0;tassoeb@tasso-ub-usa: ~/rshell/srctassoeb@tasso-ub-usa:~/rshell/src$ ./a.out -alR[K[K -R -l
+/home/tassoeb/rshell/src:
+total 84
+-rw-rw-r-- 8 1 tassoeb tassoeb 3818 Nov  7 13:27 cp.cpp[0m
+-rw-rw-r-- 0 1 tassoeb tassoeb 0 Nov  7 13:33 Timer.h~[0m
+drwxrwxr-x 8 3 tassoeb tassoeb 4096 Oct 30 13:26 [34mftest[0m
+-rw-rw-r-- 8 1 tassoeb tassoeb 2462 Nov  7 13:33 Timer.h[0m
+-rw-rw-r-- 16 1 tassoeb tassoeb 6441 Nov  6 00:15 previousls.cpp[0m
+drwxrwxr-x 8 3 tassoeb tassoeb 4096 Nov  7 14:52 [47m[34m.[0m
+-rw-r--r-- 32 1 tassoeb tassoeb 16384 Nov  7 13:44 [47m.ls.cpp.swp[0m
+-rwxrwxr-x 40 1 tassoeb tassoeb 19630 Nov  7 14:52 [32ma.out[0m
+-rw-rw-r-- 8 1 tassoeb tassoeb 4096 Nov  7 14:53 lsrun[0m
+-rw-rw-r-- 16 1 tassoeb tassoeb 6924 Nov  7 13:28 ls.cpp[0m
+drwxrwxr-x 8 6 tassoeb tassoeb 4096 Nov  7 14:45 [47m[34m..[0m
+-rw-rw-r-- 16 1 tassoeb tassoeb 4413 Oct 21 22:50 main.cpp[0m
+
+/home/tassoeb/rshell/src/ftest:
+total 12
+drwxrwxr-x 8 2 tassoeb tassoeb 4096 Oct 30 12:04 [34mf2test[0m
+drwxrwxr-x 8 3 tassoeb tassoeb 4096 Oct 30 13:26 [47m[34m.[0m
+-rw-rw-r-- 0 1 tassoeb tassoeb 0 Oct 30 11:57 doc2[0m
+-rw-rw-r-- 0 1 tassoeb tassoeb 0 Oct 30 11:57 doc1[0m
+drwxrwxr-x 8 3 tassoeb tassoeb 4096 Nov  7 14:52 [47m[34m..[0m
+
+/home/tassoeb/rshell/src/ftest/f2test:
+total 8
+drwxrwxr-x 8 2 tassoeb tassoeb 4096 Oct 30 12:04 [47m[34m.[0m
+-rw-rw-r-- 0 1 tassoeb tassoeb 0 Oct 30 11:58 doc3[0m
+drwxrwxr-x 8 3 tassoeb tassoeb 4096 Oct 30 13:26 [47m[34m..[0m
+
+]0;tassoeb@tasso-ub-usa: ~/rshell/srctassoeb@tasso-ub-usa:~/rshell/src$ ./a.out -a -R -l[K[K[K[K[K[K[K[K~/rshell -la
+total 36
+drwxrwxr-x 8 3 tassoeb tassoeb 4096 Nov  7 14:52 [34msrc[0m
+drwxrwxr-x 8 2 tassoeb tassoeb 4096 Oct 21 22:50 [34mtests[0m
+-rw-rw-r-- 8 1 tassoeb tassoeb 238 Nov  7 14:45 Makefile[0m
+drwxrwxr-x 8 8 tassoeb tassoeb 4096 Nov  7 13:28 [47m[34m.git[0m
+drwxrwxr-x 8 6 tassoeb tassoeb 4096 Nov  7 14:45 [47m[34m.[0m
+-rw-rw-r-- 8 1 tassoeb tassoeb 854 Oct 21 22:50 README.md[0m
+drwxrwxr-x 8 2 tassoeb tassoeb 4096 Nov  7 13:41 [34mbin[0m
+-rw-rw-r-- 8 1 tassoeb tassoeb 1485 Oct 21 22:50 LICENSE[0m
+drwxr-xr-x 8 36 tassoeb tassoeb 4096 Nov  7 14:45 [47m[34m..[0m
+]0;tassoeb@tasso-ub-usa: ~/rshell/srctassoeb@tasso-ub-usa:~/rshell/src$ ./a.out ~/rshell -la[K[KR[K[K[K[K[K[K[K[K[K[K[K-R ~/rshell -a
+/home/tassoeb/rshell:
+[34msrc[0m  [34mtests[0m  Makefile[0m  [47m[34m.git[0m  [47m[34m.[0m  README.md[0m  [34mbin[0m  LICENSE[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/src:
+cp.cpp[0m  Timer.h~[0m  [34mftest[0m  Timer.h[0m  previousls.cpp[0m  [47m[34m.[0m  [47m.ls.cpp.swp[0m  [32ma.out[0m  lsrun[0m  ls.cpp[0m  [47m[34m..[0m  main.cpp[0m  
+
+/home/tassoeb/rshell/src/ftest:
+[34mf2test[0m  [47m[34m.[0m  doc2[0m  doc1[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/src/ftest/f2test:
+[47m[34m.[0m  doc3[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/tests:
+exec[0m  [47m[34m.[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git:
+config[0m  [34mhooks[0m  [34mbranches[0m  COMMIT_EDITMSG[0m  [47m[34m.[0m  FETCH_HEAD[0m  [34mobjects[0m  [34mlogs[0m  HEAD[0m  [34mrefs[0m  [47m[34m..[0m  [34minfo[0m  ORIG_HEAD[0m  index[0m  description[0m  
+
+/home/tassoeb/rshell/.git/hooks:
+[32mpre-push.sample[0m  [32mcommit-msg.sample[0m  [32mpre-applypatch.sample[0m  [32mapplypatch-msg.sample[0m  [32mpost-update.sample[0m  [32mpre-rebase.sample[0m  [32mpre-commit.sample[0m  [47m[34m.[0m  [32mprepare-commit-msg.sample[0m  [32mupdate.sample[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/branches:
+[47m[34m.[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects:
+[34m32[0m  [34m53[0m  [34mc1[0m  [34maf[0m  [34m59[0m  [34m71[0m  [34m11[0m  [34mfd[0m  [34m70[0m  [34m73[0m  [34m5b[0m  [34m1f[0m  [34m30[0m  [34m8f[0m  [34m87[0m  [34mf2[0m  [34ma3[0m  [34ma9[0m  [34m40[0m  [34m22[0m  [34m74[0m  [34m04[0m  [34m6c[0m  [34m9f[0m  [34m01[0m  [34m06[0m  [34m14[0m  [34m92[0m  [34me0[0m  [34m78[0m  [34m72[0m  [34me1[0m  [34m4d[0m  [34m43[0m  [34m58[0m  [34m28[0m  [34me7[0m  [34m2d[0m  [34m03[0m  [34mc4[0m  [34m4e[0m  [34mb8[0m  [34mad[0m  [34mf3[0m  [34m24[0m  [34m84[0m  [34m51[0m  [34m94[0m  [34m15[0m  [34m96[0m  [34mb9[0m  [34mf4[0m  [34m65[0m  [34me2[0m  [34m88[0m  [34mbb[0m  [34m4a[0m  [34m6e[0m  [34mae[0m  [34m77[0m  [47m[34m.[0m  [34m9d[0m  [34mf5[0m  [34m0c[0m  [34md8[0m  [34m97[0m  [34ma0[0m  [34m75[0m  [34me6[0m  [34m3a[0m  [34m41[0m  [34ma7[0m  [34md7[0m  [34m35[0m  [34m82[0m  [34m69[0m  [34m13[0m  [34mea[0m  [34me9[0m  [34m39[0m  [34mcd[0m  [34mce[0m  [34mcf[0m  [34m85[0m  [34md0[0m  [34m2b[0m  [34md1[0m  [34m52[0m  [34m4f[0m  [34m80[0m  [34mc9[0m  [34m2f[0m  [34m68[0m  [34m89[0m  [47m[34m..[0m  [34minfo[0m  [34mdf[0m  [34mb2[0m  [34mpack[0m  [34m1a[0m  [34m8c[0m  [34m00[0m  [34m2a[0m  [34mba[0m  [34mb3[0m  
+
+/home/tassoeb/rshell/.git/objects/32:
+[47m[34m.[0m  1b23a31f6ddf50440e3ff05d9df216d59e14fc[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/53:
+[47m[34m.[0m  [47m[34m..[0m  505b069411ce04ed04d9724bdf4282bce94304[0m  
+
+/home/tassoeb/rshell/.git/objects/c1:
+e427ea4f98746869ab3fde22d94daac759a8b8[0m  [47m[34m.[0m  3353b7b12778d881ce8517e7b6b873b105ce67[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/af:
+1d383258a908c002ece018ab9bd1fed5b4ea92[0m  [47m[34m.[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/59:
+e3613ed1eb85fcb76ef50ccfc458c8a3eca5ad[0m  39346e3b802d7ad45c087efbc1ef6a25dcf15e[0m  [47m[34m.[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/71:
+3acc1fac4487294c3808a3db4c770d418fc897[0m  c882e2e6dc1af9ecc10fe5adeec26313a4ec28[0m  [47m[34m.[0m  873b59ab82b495c60ec29242e633426f3e3ea4[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/11:
+87f679e3cbb78cbdfbaec44d4f4cf9e70dcb50[0m  [47m[34m.[0m  559f9e1b43101d0b0e9853eac5e592bd71c7d4[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/fd:
+[47m[34m.[0m  [47m[34m..[0m  b6511212678a867dbf5207acd41cc55adddc0a[0m  
+
+/home/tassoeb/rshell/.git/objects/70:
+25eaffe587c6c0bb46e22ec6ab109f57c21acb[0m  [47m[34m.[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/73:
+5ec7da652502386f03e0067aac3dc3a29a8aa0[0m  [47m[34m.[0m  9378ad772e982ebd91d861dbf7df6e6570ee12[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/5b:
+[47m[34m.[0m  09d02e3a77357984cecb572f8685ae8fbd81f6[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/1f:
+d21adbe0c76b0af27dbf9f928d8a6260c7bc8a[0m  [47m[34m.[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/30:
+a3da0bbdda765eb05b75552de23366db6361bc[0m  [47m[34m.[0m  [47m[34m..[0m  d353f1079e7144d48a9e95d2783baf0711321d[0m  
+
+/home/tassoeb/rshell/.git/objects/8f:
+[47m[34m.[0m  bba0d1872323da921ba4bedae57874fe1cfc6f[0m  d8201a54dc08a8110418d8162e95f856b1e3bc[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/87:
+3bb1777e0507e333473bb9e43400596671f190[0m  [47m[34m.[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/f2:
+[47m[34m.[0m  24cea7af9d1e9e52f84413aa101251655b5ef3[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/a3:
+[47m[34m.[0m  b714be3b8bb91a36b3c35f2a2c9105383496ce[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/a9:
+2099ef65427bdf03ac47a5117e0f3b2c095f38[0m  [47m[34m.[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/40:
+3cad25d273c3c8515ccda55967eedf180116dd[0m  [47m[34m.[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/22:
+[47m[34m.[0m  896d74eebb6bb5e71d1705b915547775e916ba[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/74:
+[47m[34m.[0m  [47m[34m..[0m  dadd77cb43f2bd32f090f2dd939450e04403a4[0m  
+
+/home/tassoeb/rshell/.git/objects/04:
+[47m[34m.[0m  afcb8cd89a23ddcf936528100e05ffeec2f104[0m  [47m[34m..[0m  21b69e6926bcd8f64e2b3cdcaf7e599c51ac17[0m  
+
+/home/tassoeb/rshell/.git/objects/6c:
+[47m[34m.[0m  f01925c8b5e2a226621b28960e1cd1ced3fa03[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/9f:
+[47m[34m.[0m  5e5785208c0fae62198b865b9c0e571aedcf99[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/01:
+[47m[34m.[0m  b5f19de9da5ebc45677efec3593ff004ebe931[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/06:
+[47m[34m.[0m  [47m[34m..[0m  eb2e17fb9954abf217c4ba67af108c45d663d4[0m  
+
+/home/tassoeb/rshell/.git/objects/14:
+4b0ddee67552d0edc2a36da54f683d595fd252[0m  [47m[34m.[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/92:
+[47m[34m.[0m  [47m[34m..[0m  485f1e49bb0aed6530f9efeb7d29aa0f44f470[0m  
+
+/home/tassoeb/rshell/.git/objects/e0:
+[47m[34m.[0m  fc01530c7debeea3652c62e6b7a0cf31c438d2[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/78:
+[47m[34m.[0m  4057463123766688cb96d10adefff9a88242e8[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/72:
+a2270f1e928e132f8eb607ff3dd0a9cf451701[0m  [47m[34m.[0m  d30010f987cad62fbb1a66c2e1c86b47454213[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/e1:
+5ddc8a143e9d4dcafd96bebaf7dd59abcdafb8[0m  [47m[34m.[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/4d:
+b0d64591ff1354bc249d974918b3bf90c53612[0m  [47m[34m.[0m  9ca5793c8e7c3802125c1951462a7b7e7a0f9b[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/43:
+[47m[34m.[0m  [47m[34m..[0m  98022ae6ce5c63da9b3afab15219c0a7bf7144[0m  
+
+/home/tassoeb/rshell/.git/objects/58:
+2209300e0d67929f168502a7f1b81f02948cbb[0m  [47m[34m.[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/28:
+[47m[34m.[0m  9e4c1aac91d143b2ec7bd94eaced7b12823d2a[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/e7:
+815ce1c2492f3e12c7de5983512c44c3888146[0m  [47m[34m.[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/2d:
+[47m[34m.[0m  8cd81a58fca473ca86e4348f5c9ad32ca080d8[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/03:
+d6ad4ed6c8c1c3edd5078d2160e9783e6f6a6d[0m  [47m[34m.[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/c4:
+a9759ff5f629fc67bd164ddd6a965d39f0b0e4[0m  [47m[34m.[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/4e:
+afc3d9b31ae03b992a10056a4ddde83621593f[0m  [47m[34m.[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/b8:
+c40794e3cdfb0861c6946b9c2ba3a8e77275a3[0m  [47m[34m.[0m  28e977af87a46b17c9079722f04999204d172f[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/ad:
+1496da7056bf140929efc157c0670ad3df3f57[0m  [47m[34m.[0m  e561b43525f1aefdae948df66b5dbce28da659[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/f3:
+[47m[34m.[0m  22c3556b2d54c73b419b12bc26d5b1be5d09ae[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/24:
+510f32dc9e82751d7d12f41fa1d4d784a79228[0m  [47m[34m.[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/84:
+e8b388b9bb23ec674afde3b1d5269cf4931f9f[0m  [47m[34m.[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/51:
+07bef7130e2f7cbb61d6692f8d3ae1aaf8ea7c[0m  [47m[34m.[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/94:
+ff5a58a419b84ea7c18bf10cd500ec1bcba005[0m  [47m[34m.[0m  daa42082d91841e9e030fa03e0165b5772ea30[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/15:
+[47m[34m.[0m  d48844f5b4c112f57d25e4e3d376e51e465252[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/96:
+dd2cf4ea652e69a0f1fccb277492dc7c2d65e5[0m  362566e2a3833e80b7c8f165562c07f2db6987[0m  [47m[34m.[0m  c468d3150662523d338a3246ec73638acbf569[0m  8ad223fbbb481f4af25b72948e3a1e1436b400[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/b9:
+3bf777f44fb1763ecde94c7be06054737d5c07[0m  [47m[34m.[0m  398ea005c555fa26d482d8835f15fff4019c43[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/f4:
+[47m[34m.[0m  29dc5c93d55ea32f71ccb0d5e9bd03c6b126c3[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/65:
+0586ade5dbe5115d20c19bcd2785670e58817c[0m  f3785277b9ade9290f72d6bcb697467209a029[0m  [47m[34m.[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/e2:
+[47m[34m.[0m  9cd6abd68657789c68aa4a1428a6c366483e60[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/88:
+[47m[34m.[0m  cf7f899d07e24082309f79c4a7e364f224f835[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/bb:
+93458ab5ed69ad46b04baf7b7cb99eb21a69b2[0m  [47m[34m.[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/4a:
+91ba5ae930bc2b12ee49bd0266967f193a1921[0m  [47m[34m.[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/6e:
+e5858b118b68cd5f501ce43361008f42348b8c[0m  [47m[34m.[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/ae:
+[47m[34m.[0m  8b89283fc66fc86ba37f81302dc41530a9007b[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/77:
+[47m[34m.[0m  0efbd871ae21f8b6f782c2738522a51653b5f1[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/9d:
+[47m[34m.[0m  [47m[34m..[0m  aec9752c3ba49fe327beb9dd5fd650322afd82[0m  
+
+/home/tassoeb/rshell/.git/objects/f5:
+630519bef0cbed4c4b01a244f96fcefacbbf85[0m  [47m[34m.[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/0c:
+b267e609971d6a4211ec21b44df07798e4e096[0m  [47m[34m.[0m  f970f8cf35d038288546bcf782501655b95b97[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/d8:
+e61871b6ef353459152cebc0e838d3aebec170[0m  [47m[34m.[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/97:
+bd47e99a09e77db6c15ab9e5ae1b62c4bbe433[0m  [47m[34m.[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/a0:
+5f4708efc2dcc1ab5c1bf5ee168ee3ae770553[0m  0654732bb1ce5609439fbbf80d06d8886bb55c[0m  [47m[34m.[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/75:
+[47m[34m.[0m  19f8b012d7840732850a15a6aa961d7720328f[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/e6:
+3e0e598aeefedde741efda1ba2eb9b119fd57e[0m  f51a01fe8e8ca97fc826d0eb44c1c282f15729[0m  [47m[34m.[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/3a:
+bd869bb1a3d6800635e0958eb31392374c6fef[0m  [47m[34m.[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/41:
+744a28f95a28a5cb732dfce0a96332968be5f1[0m  [47m[34m.[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/a7:
+[47m[34m.[0m  62dbcfa074264aed4a2517394ae4df5b8b3d92[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/d7:
+[47m[34m.[0m  414e2b19434786ee6206a5ccc9223774dd29a3[0m  [47m[34m..[0m  d1e76e9a9fab768d58b6056daec357e1cd0161[0m  
+
+/home/tassoeb/rshell/.git/objects/35:
+f18bd5668a4124d7f8d5f9118cac38e2db9018[0m  [47m[34m.[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/82:
+8a56f9e074d83acb59d13864ae9a3986e16f2e[0m  [47m[34m.[0m  0c0b5b3cf690284e9464afaa91f6b8acab4257[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/69:
+[47m[34m.[0m  4240a65d2b479c57911678dd4b303b3d85b9f2[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/13:
+[47m[34m.[0m  f7cb3ef6301ebba9ad961697388158f71336ff[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/ea:
+e3c544bedc6fddc10ec837b4a8c61c306764f9[0m  dc37ef729e71a0aca20ff2d20b982796266b18[0m  [47m[34m.[0m  437777ce34ef0c369973cdbc3c0aba7b34d745[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/e9:
+f34f757d7326ed49ea96168e57d40006a18a15[0m  [47m[34m.[0m  d61b731eb1fff944ec1bae754eae01ca51d437[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/39:
+[47m[34m.[0m  04229fa2e54b2061242f4bb3591b8143e46ba7[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/cd:
+5509383c6b946f57ac21c09cffb0c52a9f884e[0m  [47m[34m.[0m  7989204f28a4cb720a9ffc21cebbf67523bda4[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/ce:
+4a8734326e9e342466503b64066ed93890694e[0m  [47m[34m.[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/cf:
+[47m[34m.[0m  da756b508cd1bdc0c806f8b965b69d7bfec9a5[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/85:
+43d058f70a8dac8412121c6ce3e28938b01333[0m  [47m[34m.[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/d0:
+fb8fdf6593b687c9f39d21801fe20d85a4d4fa[0m  [47m[34m.[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/2b:
+[47m[34m.[0m  [47m[34m..[0m  e248b0ddf6fda5a4e4643dae36ddecbc8dd22a[0m  
+
+/home/tassoeb/rshell/.git/objects/d1:
+[47m[34m.[0m  5a9d89b556d1be8294738699376d75049b63b9[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/52:
+fee4b36adf41fb2e83d1ee74751888bbb20e66[0m  [47m[34m.[0m  9d8a0c171bebbe32f154487be13036230e72c2[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/4f:
+367b82e813e8b78fbe7301649d5e4d40a1ccae[0m  [47m[34m.[0m  [47m[34m..[0m  d9d3fa19f04115b7900398341b029a9a159683[0m  
+
+/home/tassoeb/rshell/.git/objects/80:
+83088ba226e6f02dbff9da01fc3d7cf1af9b6a[0m  [47m[34m.[0m  583e063341b9a3c8634519371650d432840735[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/c9:
+[47m[34m.[0m  b68e08ca26070032039b8e776664e5980bcfa6[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/2f:
+[47m[34m.[0m  1854a28de397089102fc88c54a1eff5d010c48[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/68:
+11fdb19502ac948e1acecc578c01b2548322f0[0m  11248e500f416f9689f9e81fb8c8a3fdcc0eb0[0m  [47m[34m.[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/89:
+[47m[34m.[0m  199fe561488221d5caa516077a85dc8425fc7c[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/info:
+[47m[34m.[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/df:
+655c22e1596b2d0841ce0a2cd8c4276c2fb1f2[0m  [47m[34m.[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/b2:
+84e8ceba8715febcaebcb53f31abb26180d25b[0m  [47m[34m.[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/pack:
+[47m[34m.[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/1a:
+724149cabb16d1ee0d32fb8b5a5062b9d891c5[0m  [47m[34m.[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/8c:
+[47m[34m.[0m  7abe29b429b8f440f29846d2c58daed517e4e5[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/00:
+[47m[34m.[0m  a0f44c85014082c113b77587d6b1874366220f[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/2a:
+0bdec92c801375e3eae04639cde4e550b840e5[0m  [47m[34m.[0m  a74dc6f782935ee7c8b70d3b398055d2604e97[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/ba:
+52f893a720ac93472eaa3f80e5193735895d24[0m  [47m[34m.[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/objects/b3:
+[47m[34m.[0m  ac582d68df518043c86ac20253326767ad4082[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/logs:
+[47m[34m.[0m  HEAD[0m  [34mrefs[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/logs/refs:
+[34mheads[0m  [47m[34m.[0m  [34mremotes[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/logs/refs/heads:
+master[0m  exec[0m  ls[0m  [47m[34m.[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/logs/refs/remotes:
+[47m[34m.[0m  [34morigin[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/logs/refs/remotes/origin:
+master[0m  exec[0m  ls[0m  [47m[34m.[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/refs:
+[34mtags[0m  [34mheads[0m  [47m[34m.[0m  [34mremotes[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/refs/tags:
+hw0[0m  [47m[34m.[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/refs/heads:
+master[0m  exec[0m  ls[0m  [47m[34m.[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/refs/remotes:
+[47m[34m.[0m  [34morigin[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/refs/remotes/origin:
+master[0m  exec[0m  ls[0m  [47m[34m.[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/.git/info:
+[47m[34m.[0m  exclude[0m  [47m[34m..[0m  
+
+/home/tassoeb/rshell/bin:
+[32mls[0m  [47m[34m.[0m  doc[0m  [32mrshell[0m  [32mcp[0m  [47m[34m..[0m  
+
+]0;tassoeb@tasso-ub-usa: ~/rshell/srctassoeb@tasso-ub-usa:~/rshell/src$ ./a.out -R ~/rshell -a[1P -a[1P -a[1P -a[1P -a[1P -a[1P -a[1P -a[1P -a[1P-a[1P-a -a[C[C[C[C[C[C[Cl
+/home/tassoeb/rshell/src:
+total 104
+-rw-rw-r-- 8 1 tassoeb tassoeb 3818 Nov  7 13:27 cp.cpp[0m
+-rw-rw-r-- 0 1 tassoeb tassoeb 0 Nov  7 13:33 Timer.h~[0m
+drwxrwxr-x 8 3 tassoeb tassoeb 4096 Oct 30 13:26 [34mftest[0m
+-rw-rw-r-- 8 1 tassoeb tassoeb 2462 Nov  7 13:33 Timer.h[0m
+-rw-rw-r-- 16 1 tassoeb tassoeb 6441 Nov  6 00:15 previousls.cpp[0m
+drwxrwxr-x 8 3 tassoeb tassoeb 4096 Nov  7 14:52 [47m[34m.[0m
+-rw-r--r-- 32 1 tassoeb tassoeb 16384 Nov  7 13:44 [47m.ls.cpp.swp[0m
+-rwxrwxr-x 40 1 tassoeb tassoeb 19630 Nov  7 14:52 [32ma.out[0m
+-rw-rw-r-- 48 1 tassoeb tassoeb 24576 Nov  7 14:54 lsrun[0m
+-rw-rw-r-- 16 1 tassoeb tassoeb 6924 Nov  7 13:28 ls.cpp[0m
+drwxrwxr-x 8 6 tassoeb tassoeb 4096 Nov  7 14:45 [47m[34m..[0m
+-rw-rw-r-- 16 1 tassoeb tassoeb 4413 Oct 21 22:50 main.cpp[0m
+
+/home/tassoeb/rshell/src/ftest:
+total 12
+drwxrwxr-x 8 2 tassoeb tassoeb 4096 Oct 30 12:04 [34mf2test[0m
+drwxrwxr-x 8 3 tassoeb tassoeb 4096 Oct 30 13:26 [47m[34m.[0m
+-rw-rw-r-- 0 1 tassoeb tassoeb 0 Oct 30 11:57 doc2[0m
+-rw-rw-r-- 0 1 tassoeb tassoeb 0 Oct 30 11:57 doc1[0m
+drwxrwxr-x 8 3 tassoeb tassoeb 4096 Nov  7 14:52 [47m[34m..[0m
+
+/home/tassoeb/rshell/src/ftest/f2test:
+total 8
+drwxrwxr-x 8 2 tassoeb tassoeb 4096 Oct 30 12:04 [47m[34m.[0m
+-rw-rw-r-- 0 1 tassoeb tassoeb 0 Oct 30 11:58 doc3[0m
+drwxrwxr-x 8 3 tassoeb tassoeb 4096 Oct 30 13:26 [47m[34m..[0m
+
+]0;tassoeb@tasso-ub-usa: ~/rshell/srctassoeb@tasso-ub-usa:~/rshell/src$ ./a.out -R -al[1P[1P -al[1P-al[C[C[1Pl[K[K[K[K[K[K[K[K[K[Kexit
+exit
+
+Script done on Fri 07 Nov 2014 02:54:44 PM PST
