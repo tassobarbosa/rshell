@@ -55,8 +55,8 @@ void head(char path[], char name[], struct stat sb, int background){
     	 printf( (sb.st_mode & S_IROTH) ? "r" : "-");
     	 printf( (sb.st_mode & S_IWOTH) ? "w" : "-");
    	 printf( (sb.st_mode & S_IXOTH) ? "x" : "-");	
-	
-	cout<<" "<<sb.st_nlink<<" "
+		
+	cout<<" "<<sb.st_blocks<<" "<<sb.st_nlink<<" "
 	    <<log->pw_name<<" "
 	    <<grp->pw_name<<" "
 	    <<sb.st_size<<" "
@@ -69,7 +69,10 @@ void head(char path[], char name[], struct stat sb, int background){
 
 void ls(int flag, char directory[]){
 	bool showFiles = false;
+	bool showTotal = false;
+	int total=0;
 	DIR *dirp;
+
 	if(!(dirp = opendir(directory))){
 		perror("Opendir erro");
 		return;
@@ -79,8 +82,7 @@ void ls(int flag, char directory[]){
 	while((direntp = readdir(dirp))){
 
 		if(errno != 0){
-			 perror ("Readdir erro");			
-			 return;
+			 perror ("Readdir erro");					
 		}
 
 		char fullpath[512];
@@ -90,7 +92,7 @@ void ls(int flag, char directory[]){
 		struct stat fileStat;
 		if(stat(fullpath, &fileStat) == -1){
 			perror("Stat error");
-			return;
+			exit(1);	
 		}
 
 		switch(flag){
@@ -118,13 +120,21 @@ void ls(int flag, char directory[]){
 
 			//ls -l
 			case 2:
+				if(!showTotal){
+					ls(8,directory);
+					showTotal = true;
+				}
 				//avoid files starting with .
 				if(direntp->d_name[0]!='.')
 					head(fullpath,direntp->d_name, fileStat,0);
 			break;
 
 			//ls -al
-			case 3:
+			case 3:	
+				if(!showTotal){
+					ls(9,directory);
+					showTotal = true;
+				}
 				if(direntp->d_name[0]=='.')
 					head(fullpath, direntp->d_name,fileStat,1);
 				else
@@ -176,8 +186,8 @@ void ls(int flag, char directory[]){
 			break;
 
 			//ls -lR
-			case 6:
-				//has this directory shown its files?
+			case 6:	
+			//has this directory shown its files?
 				if(!showFiles){
 					showFiles = true;
 					//show actual directory
@@ -198,7 +208,7 @@ void ls(int flag, char directory[]){
 
 			//ls -laR
 			case 7:
-				//has this directory shown its files?
+			//has this directory shown its files?
 				if(!showFiles){
 					showFiles = true;
 					//show actual directory
@@ -217,10 +227,20 @@ void ls(int flag, char directory[]){
 					}					
 				}
 			break;
+			
+			case 8:
+				if(direntp->d_name[0]!='.')	
+					total+=fileStat.st_blocks;
+			break;
+			case 9:				
+					total+=fileStat.st_blocks;
+	
+			break;
 		}
 
 	}
 	closedir(dirp);
+	if(flag==8 || flag == 9) cout<<"total "<<total/2<<endl;
 }
 
 int main(int argc, char **argv){
