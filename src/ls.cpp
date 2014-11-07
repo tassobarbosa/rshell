@@ -227,14 +227,13 @@ void ls(int flag, char directory[]){
 					}					
 				}
 			break;
-			
-			case 8:
+			//case 8 and 9 only calculates nd print total in case of flag -l
+			case 8:				
 				if(direntp->d_name[0]!='.')	
 					total+=fileStat.st_blocks;
 			break;
 			case 9:				
-					total+=fileStat.st_blocks;
-	
+					total+=fileStat.st_blocks;	
 			break;
 		}
 
@@ -247,15 +246,9 @@ int main(int argc, char **argv){
 
 	char * find_flag;
 	int flag=0;
-	string path_folder="";
+	string path_folder="";	
 
-	//in case first parameter is not 'ls'
-	if(memcmp(argv[1],"ls",2)!=0){
-		cout<<"first parameter must be ls"<<endl;
-		return 0;	
-	}
-
-	for(int i=2; i<argc; i++){
+	for(int i=1; i<argc; i++){
 		//checking how many flag are passed
 		if(memcmp(argv[i],"-",1)==0){
 			find_flag = strchr(argv[i],'a');
