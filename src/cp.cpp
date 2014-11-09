@@ -16,10 +16,46 @@ int main(int argc, char **argv)
 {
 
 if(argc<3){
- cout<<"Not enough args"<<endl;
+ cout<<"try: file file2 -a / file file2"<<endl;
  return 1;
 }
+int index_input=1, index_output=2, index_flag=0;
+char * find_flag;
 
+//look for flag and get files positions
+for(int i=1; i<argc; i++){
+	if(memcmp(argv[i],"-",1)==0){
+		find_flag = strchr(argv[i],'a');
+		if(find_flag !=NULL){
+			index_flag = i;			
+			if(index_flag == 1){
+				index_input=2;
+				index_output=3;
+			}
+			if(index_flag == 2){
+				index_input=1;
+				index_output=3;
+			}
+			if(index_flag == 3){
+				index_input=1;
+				index_output=2;
+			}
+		}
+	}
+}
+
+//create a stat
+struct stat fileStat;
+if(stat(argv[index_input], &fileStat) == -1){
+	perror("Stat error");
+	exit(1);
+}
+
+//check if argument is a directory
+if(S_ISDIR(fileStat.st_mode)){
+	cout<<"erro: parameter is a directory"<<endl;
+	return 1;
+}
 DIR *dirp;
 if(!(dirp = opendir("."))){
 	perror("Opendir erro");
@@ -27,15 +63,14 @@ if(!(dirp = opendir("."))){
 }
 
 dirent *direntp;
-
+//reads all files in the directory to check if it already exists
 while((direntp = readdir(dirp))){
-
 	if(errno!=0){
 		perror("Readdir erro");
 		return 1;
 	}			
 		
-	 if(strcmp(direntp->d_name,argv[2])==0){		
+	 if(strcmp(direntp->d_name,argv[index_output])==0){		
 			cout<<"FILE EXIST"<<endl;
 		return 1;
 		}
@@ -45,12 +80,11 @@ closedir(dirp);
    int flag = 2;
     Timer t1,t2,t3;
     double eTime,sTime,wTime;
-   // t.start();
   
-ofstream outfile(argv[2]);
-ifstream is(argv[1]);
+ofstream outfile(argv[index_output]);
+ifstream is(argv[index_input]);
 
-if(argc==4) flag = 1;
+if(index_flag!=0) flag = 1;
  
 switch (flag){
 
@@ -84,13 +118,13 @@ switch (flag){
 
 		char buffer2[1];
 
-		input2 = open(argv[1], O_RDONLY);
+		input2 = open(argv[index_input], O_RDONLY);
 		if(input2 == -1){
 			perror("open");
 			return 2;
 		}
 
-		output2 = open(argv[2], O_WRONLY | O_CREAT);
+		output2 = open(argv[index_output], O_WRONLY | O_CREAT);
 		 if(output2 == -1){
 			perror("open");
 			return 3;
@@ -125,13 +159,13 @@ switch (flag){
 		ssize_t ret_out3;
 
 		char buffer3[BUFSIZ];
-		input3 = open(argv[1], O_RDONLY);
+		input3 = open(argv[index_input], O_RDONLY);
 		if(input3 == -1){
 			perror("open");
 			return 1;
 		}
 
-		output3 = open(argv[2], O_WRONLY | O_CREAT);
+		output3 = open(argv[index_output], O_WRONLY | O_CREAT);
 		 if(output3 == -1){
 			perror("open");
 			return 1;
@@ -160,6 +194,7 @@ switch (flag){
 	break;
 
 	case 2:
+//-------------- In case there is no flag set, run the fastest method
 		t3.start();
 		int input;
 		int output;
@@ -168,13 +203,13 @@ switch (flag){
 		ssize_t ret_out;
 
 		char buffer[BUFSIZ];
-		input = open(argv[1], O_RDONLY);
+		input = open(argv[index_input], O_RDONLY);
 		if(input == -1){
 			perror("open");
 			return 2;
 		}
 
-		output = open(argv[2], O_WRONLY | O_CREAT);
+		output = open(argv[index_output], O_WRONLY | O_CREAT);
 		 if(output == -1){
 			perror("open");
 			return 3;
