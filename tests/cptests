@@ -1,0 +1,72 @@
+Script started on Sun 09 Nov 2014 04:00:43 PM PST
+]0;tassoeb@tasso-ub-usa: ~/rshell/srctassoeb@tasso-ub-usa:~/rshell/src$ g++ cp.cpp
+]0;tassoeb@tasso-ub-usa: ~/rshell/srctassoeb@tasso-ub-usa:~/rshell/src$ ./a.out [K
+try: file file2 -a / file file2
+]0;tassoeb@tasso-ub-usa: ~/rshell/srctassoeb@tasso-ub-usa:~/rshell/src$ ./a.out cptes[K[K[K[K[Kdoc
+try: file file2 -a / file file2
+]0;tassoeb@tasso-ub-usa: ~/rshell/srctassoeb@tasso-ub-usa:~/rshell/src$ ./a.out doc doc1
+Method 3
+UserTime: 0
+SystemTime: 3.3e-05
+WallclockTime: 3.4e-05
+
+]0;tassoeb@tasso-ub-usa: ~/rshell/srctassoeb@tasso-ub-usa:~/rshell/src$ ./a.out doc doc1
+FILE EXIST
+]0;tassoeb@tasso-ub-usa: ~/rshell/srctassoeb@tasso-ub-usa:~/rshell/src$ ./a.out doc doc1[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[Kls
+[0m[01;32ma.out[0m  cp.cpp  cptests  doc  doc1  [01;34mftest[0m  ls.cpp  main.cpp  Timer.h
+]0;tassoeb@tasso-ub-usa: ~/rshell/srctassoeb@tasso-ub-usa:~/rshell/src$ cp[K[Kls./a.out doc doc1[K[K[K[K[K[K[K[Kftest doc2
+erro: parameter is a directory
+]0;tassoeb@tasso-ub-usa: ~/rshell/srctassoeb@tasso-ub-usa:~/rshell/src$ ./a.out ftest doc2[K[K[K[K[K[K[K[K[K[Kdoc [K[K[K[K-a doc doc2
+Method 1
+UserTime: 0
+SystemTime: 0.000322
+WallclockTime: 0.000325
+
+Method 2
+UserTime: 0
+SystemTime: 0.017493
+WallclockTime: 0.01756
+
+Method 3
+UserTime: 0
+SystemTime: 1.6e-05
+WallclockTime: 1.6e-05
+
+]0;tassoeb@tasso-ub-usa: ~/rshell/srctassoeb@tasso-ub-usa:~/rshell/src$ ./a.out -a doc doc2[1P[1P[C[C[C[C[C-doc2adoc2 doc2[C[C[C[K3
+Method 1
+UserTime: 0.000235
+SystemTime: 0
+WallclockTime: 0.00024
+
+Method 2
+UserTime: 0.001268
+SystemTime: 0.020866
+WallclockTime: 0.022295
+
+Method 3
+UserTime: 0
+SystemTime: 0
+WallclockTime: 1.6e-05
+
+]0;tassoeb@tasso-ub-usa: ~/rshell/srctassoeb@tasso-ub-usa:~/rshell/src$ ./a.out  doc -a doc3[K[K[K[K[K[K[K[K[K[K[Kdoc 3[K[K3 doc
+FILE EXIST
+]0;tassoeb@tasso-ub-usa: ~/rshell/srctassoeb@tasso-ub-usa:~/rshell/src$ doc[K[K[K./a.out  doc3 doc[K[K[K[K[K doc4 -a
+Method 1
+UserTime: 0.000211
+SystemTime: 0
+WallclockTime: 0.000214
+
+Method 2
+UserTime: 0.00102
+SystemTime: 0.013068
+WallclockTime: 0.014134
+
+Method 3
+UserTime: 6e-06
+SystemTime: 1.7e-05
+WallclockTime: 2.4e-05
+
+]0;tassoeb@tasso-ub-usa: ~/rshell/srctassoeb@tasso-ub-usa:~/rshell/src$ exit
+exit
+
+Script done on Sun 09 Nov 2014 04:02:31 PM PST
