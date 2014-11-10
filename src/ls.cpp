@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <pwd.h>
+#include <grp.h>
 #include <sys/stat.h>
 #include <time.h>
 #include <stdlib.h>
@@ -32,14 +33,14 @@ void resetColor(){
 
 void head(char path[], char name[], struct stat sb, int background){
 	struct passwd *log;
-	struct passwd *grp;
+	struct group *grp;
 	struct tm * timeinfo;
 	char buffer [80];
 
 	log = getpwuid(sb.st_uid);
 	if(log == '\0') perror("Login error");
 
-	grp = getpwuid(sb.st_gid);
+	grp = getgrgid(sb.st_gid);
 	if(grp == '\0') perror("Group error");
 	
 	timeinfo = localtime(&sb.st_mtime);
@@ -56,9 +57,9 @@ void head(char path[], char name[], struct stat sb, int background){
     	 printf( (sb.st_mode & S_IWOTH) ? "w" : "-");
    	 printf( (sb.st_mode & S_IXOTH) ? "x" : "-");	
 		
-	cout<<" "<<sb.st_blocks<<" "<<sb.st_nlink<<" "
+	cout<<" "<<sb.st_nlink<<" "
 	    <<log->pw_name<<" "
-	    <<grp->pw_name<<" "
+	    <<grp->gr_name<<" "
 	    <<sb.st_size<<" "
 	    <<buffer<<" ";
 	    changeColor(background,sb);
