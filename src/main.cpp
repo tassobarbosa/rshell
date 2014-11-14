@@ -7,6 +7,7 @@
 #include <sys/wait.h>
 #include <sys/mman.h>
 #include <pwd.h>
+#include <fcntl.h>
 using namespace std;
 
 static int *glob_flag;
@@ -16,29 +17,29 @@ void prompt(){
 	struct passwd *log;
 	int pid = fork();
 	if(pid == -1){
-	perror("fork() presented error");
-	exit(1);
+		perror("fork() presented error");
+		exit(1);
 	}
 	else if(pid==0){
-	char host[50];
-	if ((gethostname(host, sizeof(host)-1))==-1) {
-	host[0] = 'h';
-	host[1] = 'o';
-	host[2] = 's';
-	host[3] = 't';
-	host[4] = '\0';
-	perror("Error trying to get hostname");
-	}
-	log = getpwuid(getuid());
-	if(log == '\0'){
-		perror("Error trying to get user login");
-	}
+		char host[50];
+		if ((gethostname(host, sizeof(host)-1))==-1) {
+		host[0] = 'h';
+		host[1] = 'o';
+		host[2] = 's';
+		host[3] = 't';
+		host[4] = '\0';
+		perror("Error trying to get hostname");
+		}
+		log = getpwuid(getuid());
+		if(log == '\0'){
+			perror("Error trying to get user login");
+		}
 
-	cout << log->pw_name << "@" << host << "$ ";
-	exit(1);
+		cout << log->pw_name << "@" << host << "$ ";
+		exit(1);
 	}else if(pid>0){
-	if(-1 == wait(0))
-	perror("wait() presented error");
+		if(-1 == wait(0))
+		perror("wait() presented error");
 
 	}	
 }
@@ -48,10 +49,6 @@ void execute(char *str[], int size){
 	char * newstr[512];
 	char * connector;
 	int i, j, aux;
-
-	//create a shared memory to be accessed from child and process
-	glob_flag = (int*)mmap(NULL, sizeof *glob_flag, PROT_READ | PROT_WRITE,
-		MAP_SHARED | MAP_ANONYMOUS, -1, 0);
 
 	for (i = 0; i<size; i++){
 		*glob_flag = 0;
@@ -147,8 +144,52 @@ void execute(char *str[], int size){
 	}
 }
 
+void out(char *str[], int size){
+	int i;
+	int fdo;
+	char * newstr[512];
+	for(i=0;i<size;i++){	
+		if (memcmp(str[i], ">\0", 2) == 0){
+			//open file descriptor as the argument after '>'
+			fdo = open(str[i+1], O_WRONLY);
+			if(fdo == -1){
+				perror("open failed");
+				exit(1);
+			}
+		
+			if(dup2(fdo,1) == -1){
+				perror("dup failed");
+				exit(1);
+			}
+			break;
+		}
+		//newstr receive arguments before '>'
+		newstr[i] = str[i];
+	}
+	
+	if (execvp(newstr[0], newstr) == -1) 
+		perror("execvp 'out' failed");
+}
 
-
+//checks which procedure it should follows for I/O redirection
+int checkline(char *str[], int size){
+	int r=-1;
+	for(int i=0; i<size; i++){
+		if (memcmp(str[i], "|\0", 2) == 0){			
+			return 0;
+		}
+		if (memcmp(str[i], "<\0", 2) == 0){			
+			r = 1;
+		}
+		if (memcmp(str[i], ">\0", 2) == 0){			
+			r = 2;
+		}
+		if (memcmp(str[i], ">>\0", 2) == 0){			
+			r = 3;
+		}
+	}
+	return r;
+}
 
 int main(){
 	int index;
@@ -187,8 +228,31 @@ int main(){
 
 		str[index] = NULL;
 
-		execute(str, index);
+	//create a shared memory to be accessed from child and process
+	glob_flag = (int*)mmap(NULL, sizeof *glob_flag, PROT_READ | PROT_WRITE,
+		MAP_SHARED | MAP_ANONYMOUS, -1, 0);
 
+		
+		int pos = checkline(str, index);
+
+
+		int fid = fork();
+		if(fid<0){
+			perror("fork failed");
+			exit(1);
+		}	
+		if(fid == 0) {
+			if(pos==0){} 
+			else if(pos == 1){}
+			else if(pos == 2) out(str,index);
+			else if(pos == 3){}
+			else if(pos == -1)
+				execute(str, index);		
+			exit(1);
+		}else if(fid>0){
+			if(wait(0) == -1)
+				perror("wait failed");
+		}
 	}
 	return 0;
 }
