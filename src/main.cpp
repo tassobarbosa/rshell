@@ -144,17 +144,26 @@ void execute(char *str[], int size){
 	}
 }
 
-void out(char *str[], int size){
+void out(char *str[], int size, bool symbol){
 	int i;
 	int fdo;
 	char * newstr[512];
 	for(i=0;i<size;i++){	
-		if (memcmp(str[i], ">\0", 2) == 0){
+		if (memcmp(str[i], ">", 1) == 0){
 			//open file descriptor as the argument after '>'
-			fdo = open(str[i+1], O_WRONLY);
-			if(fdo == -1){
-				perror("open failed");
-				exit(1);
+			if(symbol){
+				fdo = open(str[i+1], O_RDWR|O_CREAT|O_APPEND, 0666);
+				if(fdo == -1){
+					perror("open failed");
+					exit(1);
+				}
+			}
+			else{
+				fdo = open(str[i+1], O_RDWR|O_CREAT, 0666);
+				if(fdo == -1){
+					perror("open failed");
+					exit(1);		
+				}
 			}
 		
 			if(dup2(fdo,1) == -1){
@@ -213,7 +222,7 @@ int checkline(char *str[], int size){
 		if (memcmp(str[i], ">\0", 2) == 0){			
 			r = 2;
 		}
-		if (memcmp(str[i], ">>\0", 2) == 0){			
+		if (memcmp(str[i], ">>\0", 3) == 0){
 			r = 3;
 		}
 	}
@@ -273,8 +282,8 @@ int main(){
 		if(fid == 0) {
 			if(pos==0){} 
 			else if(pos == 1) in(str, index);
-			else if(pos == 2) out(str,index);
-			else if(pos == 3){}
+			else if(pos == 2) out(str,index, false);
+			else if(pos == 3) out(str,index, true);
 			else if(pos == -1)
 				execute(str, index);		
 			exit(1);
