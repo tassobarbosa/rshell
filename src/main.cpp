@@ -171,6 +171,35 @@ void out(char *str[], int size){
 		perror("execvp 'out' failed");
 }
 
+void in(char * str[], int size){
+	int i;
+	int fdi;
+	char * newstr[512];
+	for(i=0;i<size;i++){	
+		if (memcmp(str[i], "<\0", 2) == 0){
+			cerr<<"achei"<<endl;
+			//open file descriptor as the argument after '>'
+			fdi = open(str[i+1], O_RDONLY);
+			if(fdi == -1){
+				perror("open failed");
+				exit(1);
+			}
+		
+			if(dup2(fdi,0) == -1){
+				perror("dup failed");
+				exit(1);
+			}
+			break;
+		}
+		//newstr receive arguments before '<'
+		newstr[i] = str[i];
+	}
+	
+	if (execvp(newstr[0], newstr) == -1) 
+		perror("execvp 'in' failed");
+}
+
+
 //checks which procedure it should follows for I/O redirection
 int checkline(char *str[], int size){
 	int r=-1;
@@ -243,7 +272,7 @@ int main(){
 		}	
 		if(fid == 0) {
 			if(pos==0){} 
-			else if(pos == 1){}
+			else if(pos == 1) in(str, index);
 			else if(pos == 2) out(str,index);
 			else if(pos == 3){}
 			else if(pos == -1)
