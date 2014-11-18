@@ -494,14 +494,18 @@ int main(){
 				l++;
 			}
 			if(line[l]== '>' && line[l+1]!= '>'){
-				line.insert(l+1," ");				
-				line.insert(l," ");
-				l++;
+				line.insert(l+1," ");
+				if(!isdigit(line[l-1])){				
+					line.insert(l," ");
+					l++;
+				}
 			}
 			if(line[l]== '>' && line[l+1] == '>'){
 				line.insert(l+2," ");				
-				line.insert(l," ");
-				l = l+2;
+				if(!isdigit(line[l-1])){				
+					line.insert(l," ");
+					l = l+2;
+				}
 			}
 			if(line[l]== '<' && line[l+1] == '<' && line[l+2] == '<'){
 				line.insert(l+3," ");				
