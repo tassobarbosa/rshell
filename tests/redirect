@@ -1,0 +1,45 @@
+Script started on Tue 18 Nov 2014 02:35:18 PM PST
+]0;tassoeb@tasso-ub-usa: ~/rshell/srctassoeb@tasso-ub-usa:~/rshell/src$ exit./a.outg++ -Wall -Werror -pedantic -ansi main.cpp
+]0;tassoeb@tasso-ub-usa: ~/rshell/srctassoeb@tasso-ub-usa:~/rshell/src$ ./a.out
+tassoeb@tasso-ub-usa$ cat > file > scr   file2
+tassoeb@tasso-ub-usa$ cat file > file     > file2
+tassoeb@tasso-ub-usa$ cat < file2
+ThIs iS a eXAMple FiLe
+ContAIniNg upper and LOWER case
+letters
+ThIs iS a eXAMple FiLe
+ContAIniNg upper and LOWER case
+letters
+tassoeb@tasso-ub-usa$ cat < file | cat | cat
+ThIs iS a eXAMple FiLe
+ContAIniNg upper and LOWER case
+letters
+tassoeb@tasso-ub-usa$ cat < file | tr file3     A-Z a-z | tee f file2 | tr a-z A-Z > file3
+tassoeb@tasso-ub-usa$ cat < file2
+this is a example file
+containing upper and lower case
+letters
+tassoeb@tasso-ub-usa$ cat fi  <file     file  3
+THIS IS A EXAMPLE FILE
+CONTAINING UPPER AND LOWER CASE
+LETTERS
+tassoeb@tasso-ub-usa$ exh  cho extra credit | cat
+extra credit
+tassoeb@tasso-ub-usa$ cat <<< "extra credit"
+extra credit 
+tassoeb@tasso-ub-usa$ g++ test.cpp 2> erro
+tassoeb@tasso-ub-usa$ cat < erro
+test.cpp: In function ‘int main()’:
+test.cpp:4:1: error: ‘cout’ was not declared in this scope
+ cout<<"error test";
+ ^
+test.cpp:4:1: note: suggested alternative:
+In file included from test.cpp:1:0:
+/usr/include/c++/4.8/iostream:61:18: note:   ‘std::cout’
+   extern ostream cout;  /// Linked to standard output
+                  ^
+tassoeb@tasso-ub-usa$ g exit
+]0;tassoeb@tasso-ub-usa: ~/rshell/srctassoeb@tasso-ub-usa:~/rshell/src$ exit
+exit
+
+Script done on Tue 18 Nov 2014 02:38:47 PM PST
