@@ -45,7 +45,7 @@ void prompt(){
 }
 
 void execute(char *str[], int size){
-
+	
 	char * newstr[512];
 	char * connector;
 	int i, j, aux;
@@ -142,91 +142,259 @@ void execute(char *str[], int size){
 		//break loop due to a valid previous command connected by ||
 		if (*glob_flag == 3) break;
 	}
-}
 
-void out(char *str[], int size, bool symbol){
-	int i;
+}
+//function recieves commands and arguments before '>' and file to be output
+void out_redirect(char *newstr[], char *file_out, bool symbol, int fd_number){
 	int fdo;
-	char * newstr[512];
-	for(i=0;i<size;i++){	
-		if (memcmp(str[i], ">", 1) == 0){
-			//open file descriptor as the argument after '>'
-			if(symbol){
-				fdo = open(str[i+1], O_RDWR|O_CREAT|O_APPEND, 0666);
-				if(fdo == -1){
-					perror("open failed");
-					exit(1);
-				}
-			}
-			else{
-				fdo = open(str[i+1], O_RDWR|O_CREAT, 0666);
-				if(fdo == -1){
-					perror("open failed");
-					exit(1);		
-				}
-			}
-		
-			if(dup2(fdo,1) == -1){
-				perror("dup failed");
+		//open file descriptor as the argument after '>'
+		if(symbol){
+			fdo = open(file_out, O_RDWR|O_CREAT|O_APPEND, 0666);
+			if(fdo == -1){
+				perror("open failed");
 				exit(1);
 			}
-			break;
 		}
-		//newstr receive arguments before '>'
-		newstr[i] = str[i];
-	}
-	
+		else{
+			fdo = open(file_out, O_RDWR|O_CREAT, 0666);
+			if(fdo == -1){
+				perror("open failed");
+				exit(1);		
+			}
+		}
+		if(fd_number!=0){	
+			if(dup2(fdo,fd_number) == -1){
+				perror("dup failed");
+				exit(1);
+			}	
+		}
+		
 	if (execvp(newstr[0], newstr) == -1) 
 		perror("execvp 'out' failed");
 }
 
-void in(char * str[], int size){
-	int i;
+
+//function recieves commands before '<' and file to be input
+void in_redirect(char * newstr[], char * file_in){
 	int fdi;
-	char * newstr[512];
-	for(i=0;i<size;i++){	
-		if (memcmp(str[i], "<\0", 2) == 0){
-			cerr<<"achei"<<endl;
-			//open file descriptor as the argument after '>'
-			fdi = open(str[i+1], O_RDONLY);
-			if(fdi == -1){
-				perror("open failed");
-				exit(1);
-			}
-		
-			if(dup2(fdi,0) == -1){
-				perror("dup failed");
-				exit(1);
-			}
-			break;
-		}
-		//newstr receive arguments before '<'
-		newstr[i] = str[i];
-	}
 	
+		fdi = open(file_in, O_RDONLY);
+		if(fdi == -1){
+			perror("open failed");
+			exit(1);
+		}	
+		if(dup2(fdi,0) == -1){
+			perror("dup failed");
+			exit(1);
+		}
+
 	if (execvp(newstr[0], newstr) == -1) 
 		perror("execvp 'in' failed");
 }
 
+void in_redirect2(char * newstr[], int pos, char * str[], int size){
 
+	if (memcmp(str[pos+1], "\"", 1) == 0){				
+		int fd[3];
+		if (pipe(fd)==-1) {
+			perror ("pipe failed");
+			exit(1);
+		}
+
+		int len = strlen(str[size-1]) -1;
+		//removing quote marks
+		memmove(&str[pos+1][0], &str[pos+1][0 + 1], strlen(str[pos+1]));
+		memmove(&str[size-1][len], &str[size-1][len+1], strlen(str[size-1]) - len);
+
+		//add all the string after '<<<'
+		for(int i=pos+1; i<size; i++){		
+			write(fd[1],str[i],strlen(str[i]));		
+			write(fd[1]," ",1);			
+			}	
+		write(fd[1],"\n",1);				
+		if(dup2(fd[0],0) == -1){
+			perror("dup failed");
+			exit(1);
+			}
+
+		if(close(fd[1]) == -1) {
+			perror("Close failed.");
+			}
+
+		if (execvp(newstr[0], newstr) == -1) 
+			perror("execvp 'in' failed");
+	}else if(size == 3) cout<<str[pos+1]<<endl;
+	else cout<<"erro: no such file or directory"<<endl;
+}
+
+/*void piping(char * newstr[]){
+	*int fd[2];
+	if (pipe(fd)==-1) {
+		perror ("pipe failed");
+		exit(1);
+	}*
+	if(close(fd[0]) == -1) {
+		perror("Close failed.");
+		}
+	if(dup2(fd[1],1) == -1) {
+		perror("Dup failed.");
+	}
+	if(-1 == execvp(newstr[0], newstr)) {
+		perror("Execvp failed.");
+	}
+}*/
+void redirect(char * str[], int size){
+	int i, j, aux;
+	char * newstr[512];	
+	for(i=0;i<size;i++){
+		int fd[2];
+		*glob_flag = 0;	
+		aux = 0;
+		for(j=i; j<size; j++){
+			if (memcmp(str[j], "<\0", 2) == 0){				
+				*glob_flag = 6;	
+				i = j;
+				// if next argument is | i = j+1
+				break;
+			}
+			if (memcmp(str[j], ">\0", 2) == 0){
+				*glob_flag = 7;			
+				i = j;
+				break;
+			}
+			if (memcmp(str[j], ">>\0", 3) == 0){
+				*glob_flag = 8;
+				i = j;
+				break;
+			}
+			if (memcmp(str[j], "|\0", 2) == 0){
+				*glob_flag = 9;			
+				i = j;
+				//int fd[2];
+				if (pipe(fd)==-1) {
+					perror ("pipe failed");
+					exit(1);
+				}
+				break;
+			}
+			if (memcmp(str[j], "<<<\0", 4) == 0){
+				*glob_flag = 10;
+				i = j;
+				break;
+			}
+			if (memcmp(str[j], "2>\0", 3) == 0){
+				*glob_flag = 11;	
+				i = j;
+				break;
+			}
+			if (memcmp(str[j], "2>>\0", 4) == 0){
+				*glob_flag = 12;	
+				i = j;
+				break;
+			}
+			if (memcmp(str[j], "1>\0", 3) == 0){
+				*glob_flag = 7;	
+				i = j;
+				break;
+			}
+			if (memcmp(str[j], "1>>\0", 4) == 0){
+				*glob_flag = 8;	
+				i = j;
+				break;
+			}
+			if (memcmp(str[j], "0>", 2) == 0){
+				*glob_flag = 13;	
+				i = j;
+				break;
+			}
+			newstr[aux] = str[j];
+			aux++;
+		}	
+
+		int pid = fork();
+		if(pid<0){
+			perror("fork() presented error");
+			exit(1);		
+		}else if(pid==0){
+			if(*glob_flag == 6)in_redirect(newstr, str[j+1]);
+			else if(*glob_flag == 7)out_redirect(newstr, str[j+1], false, 1);	
+			else if(*glob_flag == 8)out_redirect(newstr, str[j+1], true, 1);	
+			else if(*glob_flag == 9){
+				//piping(newstr);	
+				if(close(fd[0]) == -1) {
+						perror("Close failed.");
+						}
+					if(dup2(fd[1],1) == -1) {
+						perror("Dup failed.");
+					}
+					if(-1 == execvp(newstr[0], newstr)) {
+						perror("Execvp failed.");
+					}
+			}else if(*glob_flag == 10) in_redirect2(newstr, i, str, size);	
+			else if(*glob_flag == 11) out_redirect(newstr, str[j+1],false, 2);
+			else if(*glob_flag == 12) out_redirect(newstr, str[j+1],true, 2);
+			else if(*glob_flag == 13) out_redirect(newstr, str[j+1],true, 0);
+		
+			exit(1);
+		}else if(pid>0){
+			if(*glob_flag == 9){
+			/*	int c_in = dup(0);
+				if(c_in == -1) {
+					perror("Dup failed.");
+				}
+				if(close(fd[1]) == -1) {
+					perror("Close failed.");
+				}
+				if(dup2(fd[0],0) == -1) {
+					perror("Dup failed.");
+				}
+				int status;
+				wait(&status);
+				if (-1 == status){
+					perror("wait() presented error");	
+				}
+			//	if (dup2(c_in,0) == -1) {
+			//		perror("Dup failed.");
+			//	}
+				cout << flush;*/
+			}else{
+				int status;
+				wait(&status);
+				if (-1 == status){
+					perror("wait() presented error");	
+				}
+			}
+				
+		}
+
+
+		// clear the vector newstr in order to execute new commands
+		for (int k = 0; k<aux; k++)newstr[k] = '\0';
+	}
+}
 //checks which procedure it should follows for I/O redirection
 int checkline(char *str[], int size){
-	int r=-1;
 	for(int i=0; i<size; i++){
 		if (memcmp(str[i], "|\0", 2) == 0){			
 			return 0;
 		}
-		if (memcmp(str[i], "<\0", 2) == 0){			
-			r = 1;
+		if (memcmp(str[i], "<", 1) == 0){			
+			return 0;
 		}
-		if (memcmp(str[i], ">\0", 2) == 0){			
-			r = 2;
+		if (memcmp(str[i], ">", 1) == 0){				
+			return 0;
 		}
-		if (memcmp(str[i], ">>\0", 3) == 0){
-			r = 3;
+		if (memcmp(str[i], "2>", 2) == 0){				
+			return 0;
+		}	
+		if (memcmp(str[i], "1>", 2) == 0){				
+			return 0;
+		}
+		if (memcmp(str[i], "0>", 2) == 0){				
+			return 0;
 		}
 	}
-	return r;
+	return 1;
 }
 
 int main(){
@@ -271,26 +439,8 @@ int main(){
 		MAP_SHARED | MAP_ANONYMOUS, -1, 0);
 
 		
-		int pos = checkline(str, index);
-
-
-		int fid = fork();
-		if(fid<0){
-			perror("fork failed");
-			exit(1);
-		}	
-		if(fid == 0) {
-			if(pos==0){} 
-			else if(pos == 1) in(str, index);
-			else if(pos == 2) out(str,index, false);
-			else if(pos == 3) out(str,index, true);
-			else if(pos == -1)
-				execute(str, index);		
-			exit(1);
-		}else if(fid>0){
-			if(wait(0) == -1)
-				perror("wait failed");
-		}
+		if(!checkline(str, index)) redirect(str, index);
+		else	execute(str, index);		
 	}
 	return 0;
 }
