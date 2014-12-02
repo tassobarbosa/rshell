@@ -36,8 +36,10 @@ void prompt(){
 		if(log == '\0'){
 			perror("Error trying to get user login");
 		}
+		char currentDir[1024];
+	        if(!getcwd(currentDir, 1024)) perror("Getcwd failed. ");
 
-		cout << log->pw_name << "@" << host << "$ ";
+		cout << log->pw_name << "@" << host <<":"<<currentDir<<"$ ";
 		exit(1);
 	}else if(pid>0){
 		if(-1 == wait(0))
