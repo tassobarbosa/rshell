@@ -59,7 +59,7 @@ int get_path(char *path[], int index){
 		pch = strtok (NULL, ":");
 	}
 
-	path[index] = NULL;	
+	path[index] = NULL;		
 	return index;
 }
 
@@ -207,8 +207,8 @@ for(int i =0; i<3; i++){
 			}	
 		}
 		
-	if (execvp(newstr[0], newstr) == -1) 	
-	//if(-1 == my_exec(newstr))
+	//if (execvp(newstr[0], newstr) == -1) 	
+	if(-1 == my_exec(newstr))
 		perror("execvp 'out' failed");
 }
 
@@ -227,7 +227,8 @@ void in_redirect(char * newstr[], char * file_in){
 			exit(1);
 		}
 
-	if (execvp(newstr[0], newstr) == -1) 
+	//if (execvp(newstr[0], newstr) == -1) 	
+	  if(-1 == my_exec(newstr))
 		perror("execvp 'in' failed");
 }
 
@@ -266,7 +267,8 @@ void in_redirect2(char * newstr[], int pos, char * str[], int size){
 			perror("Close failed.");
 			}
 
-		if (execvp(newstr[0], newstr) == -1) 
+		//if (execvp(newstr[0], newstr) == -1) 
+		  if(my_exec(newstr)== -1)			
 			perror("execvp 'in' failed");
 	}else if(size == 3) cout<<str[pos+1]<<endl;
 	else cout<<"erro: no such file or directory"<<endl;
@@ -364,7 +366,8 @@ void redirect(char * str[], int size){
 			else if(*glob_flag == 7)out_redirect(newstr, str[j+1], false, 1);	
 			else if(*glob_flag == 8)out_redirect(newstr, str[j+1], true, 1);	
 			else if(*glob_flag == 14){
-				if(execvp(newstr[0], newstr) == -1) {
+				//if(execvp(newstr[0], newstr) == -1) {
+				if(my_exec(newstr) == -1){
 					perror("Execvp 0 failed.");
 				}				
 			}	
@@ -434,7 +437,8 @@ void piping(int index, int size, char *str[]) {
 		
 		int check = checkless(newstr, end);
 		if(check == -1){	
-			if(-1 == execvp(newstr[0], newstr)) {
+			//if(-1 == execvp(newstr[0], newstr)) {
+			if(my_exec(newstr) == -1){
 				perror("Execvp piping failed.");
 			}
 		}else  {	
@@ -583,8 +587,14 @@ int main(){
 		MAP_SHARED | MAP_ANONYMOUS, -1, 0);
 
 		
-		if (memcmp(str[0], "cd", 2) == 0){
-			cout<<"cd"<<endl;
+		if (memcmp(str[0], "cd", 2) == 0){	
+			if (index  == 1) {
+				char *home = getenv("HOME");
+				if(chdir(home) == -1) perror("There was an error on chdir");
+			} else {
+				if(-1 == chdir(str[1])) perror("There was an error on chdir");
+			}
+				
 		}else{
 			int pos = checkpipe(str, index);
 			if(pos!= -1) piping(pos, index, str);
