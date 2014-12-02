@@ -606,12 +606,19 @@ int main(){
 			} else {
 				if(-1 == chdir(str[1])) perror("There was an error on chdir");
 			}
-				
-		}else{
-			int pos = checkpipe(str, index);
-			if(pos!= -1) piping(pos, index, str);
-			else if(!checkline(str, index)) redirect(str, index);
-			else execute(str, index, path, p_size);		
+		}else{			
+			if (memcmp(str[0], "fg", 2) == 0){
+				raise(SIGSTOP);		
+			}else{				
+				if (memcmp(str[0], "bg", 2) == 0){
+					raise(SIGTTIN);			
+				}else{
+					int pos = checkpipe(str, index);
+					if(pos!= -1) piping(pos, index, str);
+					else if(!checkline(str, index)) redirect(str, index);
+					else execute(str, index, path, p_size);		
+				}
+			}
 		}
 	}
 	return 0;
