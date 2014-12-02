@@ -8,6 +8,7 @@
 #include <sys/mman.h>
 #include <pwd.h>
 #include <fcntl.h>
+#include <signal.h>
 using namespace std;
 
 static int *glob_flag;
@@ -46,6 +47,15 @@ void prompt(){
 		perror("wait() presented error");
 
 	}	
+}
+
+void sig_handler(int signum) {
+	if(signum==SIGINT){
+	      	signal(SIGINT,SIG_IGN);	
+	}
+	if(signum == SIGTSTP){
+		raise(SIGSTOP);
+	}
 }
 
 int get_path(char *path[], int index){
@@ -516,14 +526,15 @@ int main(){
 	char * str[512];
 	char * pch;
 
-
+	signal(SIGINT, sig_handler);
+	signal(SIGTSTP, sig_handler);
 	//return all the locations inside $PATH
 	p_size = get_path(path, p_size);	
 
 	while (true){
 		do{
 			//output login @ machine $
-			prompt();
+			prompt();		
 			getline(cin, line);
 		} while (line[0] == '#');
 
@@ -570,8 +581,7 @@ int main(){
 		strcpy(input, line.c_str());
 
 		//built in function to finish program when typed 'EXIT'
-		if (memcmp(input, "exit", 4) == 0) exit(0);
-
+		if (memcmp(input, "exit", 4) == 0) exit(0);	
 
 		index = 0;
 		pch = strtok(input, " ");
