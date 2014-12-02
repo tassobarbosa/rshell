@@ -1,0 +1,61 @@
+Script started on Tue 02 Dec 2014 11:49:07 AM PST
+]0;tassoeb@tasso-ub-usa: ~/rshell/srctassoeb@tasso-ub-usa:~/rshell/src$ exit./a.outg++ -Wall -Werror -ansi -pedantic main.cpp
+]0;tassoeb@tasso-ub-usa: ~/rshell/srctassoeb@tasso-ub-usa:~/rshell/src$ ./a.out
+tassoeb@tasso-ub-usa:/home/tassoeb/rshell/src$ ps # testing command and coment   ments
+  PID TTY          TIME CMD
+ 4387 pts/23   00:00:00 bash
+ 4404 pts/23   00:00:00 a.out
+ 4406 pts/23   00:00:00 ps
+tassoeb@tasso-ub-usa:/home/tassoeb/rshell/src$ pwd
+/home/tassoeb/rshell/src
+tassoeb@tasso-ub-usa:/home/tassoeb/rshell/src$ ls;
+a.out  cp.cpp  file  ls.cpp  main.cpp  signals	Timer.h
+tassoeb@tasso-ub-usa:/home/tassoeb/rshell/src$ ls -a
+.  ..  a.out  cp.cpp  file  ls.cpp  main.cpp  signals  Timer.h
+tassoeb@tasso-ub-usa:/home/tassoeb/rshell/src$ touch test; echo "hello world"; ls -a -l -sh
+"hello world"
+total 80K
+4.0K drwxrwxr-x 2 tassoeb tassoeb 4.0K Dec  2 11:49 .
+4.0K drwxrwxr-x 6 tassoeb tassoeb 4.0K Dec  2 11:36 ..
+ 32K -rwxrwxr-x 1 tassoeb tassoeb  29K Dec  2 11:49 a.out
+8.0K -rw-rw-r-- 1 tassoeb tassoeb 4.7K Nov  9 15:55 cp.cpp
+4.0K -rw-rw-r-- 1 tassoeb tassoeb   24 Dec  2 11:44 file
+8.0K -rw-rw-r-- 1 tassoeb tassoeb 6.8K Nov  9 16:37 ls.cpp
+ 16K -rw-rw-r-- 1 tassoeb tassoeb  15K Dec  2 11:31 main.cpp
+   0 -rw-rw-r-- 1 tassoeb tassoeb    0 Dec  2 11:49 signals
+   0 -rw-rw-r-- 1 tassoeb tassoeb    0 Dec  2 11:49 test
+4.0K -rw-rw-r-- 1 tassoeb tassoeb 2.5K Nov  7 15:00 Timer.h
+tassoeb@tasso-ub-usa:/home/tassoeb/rshell/src$ echo "hi one more" && ls&&cat test
+"hi one more"
+a.out  cp.cpp  file  ls.cpp  main.cpp  signals	test  Timer.h
+tassoeb@tasso-ub-usa:/home/tassoeb/rshell/src$ ls && t rm test  ; pwd || touch test2  ; ls -l
+a.out  cp.cpp  file  ls.cpp  main.cpp  signals	test  Timer.h
+/home/tassoeb/rshell/src
+tassoeb@tasso-ub-usa:/home/tassoeb/rshell/src$ ^C^C^C^C^Cls
+a.out  cp.cpp  file  ls.cpp  main.cpp  signals	Timer.h
+tassoeb@tasso-ub-usa:/home/tassoeb/rshell/src$ ^Z
+[1]+  Stopped                 ./a.out
+]0;tassoeb@tasso-ub-usa: ~/rshell/srctassoeb@tasso-ub-usa:~/rshell/src$ fg
+./a.out
+bg
+
+[1]+  Stopped                 ./a.out
+]0;tassoeb@tasso-ub-usa: ~/rshell/srctassoeb@tasso-ub-usa:~/rshell/src$ fg
+./a.out
+tassoeb@tasso-ub-usa:/home/tassoeb/rshell/src$ cat > file          cd ..
+tassoeb@tasso-ub-usa:/home/tassoeb/rshell$ cd ..
+tassoeb@tasso-ub-usa:/home/tassoeb$ cd rshell
+tassoeb@tasso-ub-usa:/home/tassoeb/rshell$ cd src
+tassoeb@tasso-ub-usa:/home/tassoeb/rshell/src$ cd
+tassoeb@tasso-ub-usa:/home/tassoeb$ cd rshell
+tassoeb@tasso-ub-usa:/home/tassoeb/rshell$ cd src
+tassoeb@tasso-ub-usa:/home/tassoeb/rshell/src$ cat > file
+This is a test
+^Ctassoeb@tasso-ub-usa:/home/tassoeb/rshell/src$ cat < file
+This is a test
+ple FiLe
+tassoeb@tasso-ub-usa:/home/tassoeb/rshell/src$ exit
+]0;tassoeb@tasso-ub-usa: ~/rshell/srctassoeb@tasso-ub-usa:~/rshell/src$ exit
+exit
+
+Script done on Tue 02 Dec 2014 11:54:46 AM PST
