@@ -15,7 +15,7 @@ static int *glob_flag;
 char * path[2048];
 int p_size= 0;
 
-//output login @ machine $
+//output login @ machine : current directory $
 void prompt(){
 	struct passwd *log;
 	int pid = fork();
@@ -51,13 +51,14 @@ void prompt(){
 
 void sig_handler(int signum) {
 	if(signum==SIGINT){
-	      	signal(SIGINT,SIG_IGN);	
+	      	if(signal(SIGINT,SIG_IGN) == SIG_ERR) perror("signal error");	
 	}
 	if(signum == SIGTSTP){
 		raise(SIGSTOP);
 	}
 }
 
+//get the PATH string and split that searching for ':'
 int get_path(char *path[], int index){
 	index = 0;
 	string location = "PATH";
@@ -72,14 +73,16 @@ int get_path(char *path[], int index){
 	}
 
 	path[index] = NULL;		
+	//returning size
 	return index;
 }
 
+//execute command using EXECV
 int my_exec(char *newstr[]){
 	int erro;
 	char *p = new char[1024];
-
-        for(int i = 0; i < p_size; i++) {
+	
+        for(int i = 0; i < p_size; i++) {	
         	strcpy(p, path[i]);
                 strcat(p, "/");
                 strcat(p, newstr[0]);	
@@ -526,8 +529,8 @@ int main(){
 	char * str[512];
 	char * pch;
 
-	signal(SIGINT, sig_handler);
-	signal(SIGTSTP, sig_handler);
+	if(signal(SIGINT, sig_handler) == SIG_ERR) perror("signal error");
+	if(signal(SIGTSTP, sig_handler) == SIG_ERR) perror("signal error");
 	//return all the locations inside $PATH
 	p_size = get_path(path, p_size);	
 
@@ -574,6 +577,20 @@ int main(){
 				line.insert(l," ");
 				l++;
 			}
+			if(line[l]== '|' && line[l+1] == '|'){
+				line.insert(l+2," ");				
+				line.insert(l," ");
+				l = l+2;
+			}
+			if(line[l]== '&' && line[l+1] == '&'){
+				line.insert(l+2," ");				
+				line.insert(l," ");
+				l = l+2;
+			}
+			if(line[l]== ';'){
+				line.insert(l+1," ");
+				l++;
+			}
 		}
 
 		//create a dynamic char that is a copy of input
@@ -598,7 +615,7 @@ int main(){
 	glob_flag = (int*)mmap(NULL, sizeof *glob_flag, PROT_READ | PROT_WRITE,
 		MAP_SHARED | MAP_ANONYMOUS, -1, 0);
 
-		
+		//built in CD command	
 		if (memcmp(str[0], "cd", 2) == 0){	
 			if (index  == 1) {
 				char *home = getenv("HOME");
@@ -606,10 +623,12 @@ int main(){
 			} else {
 				if(-1 == chdir(str[1])) perror("There was an error on chdir");
 			}
-		}else{			
+		}else{
+			//built in fg command		
 			if (memcmp(str[0], "fg", 2) == 0){
 				raise(SIGSTOP);		
-			}else{				
+			}else{	
+				//built in bg command			
 				if (memcmp(str[0], "bg", 2) == 0){
 					raise(SIGTTIN);			
 				}else{
@@ -620,6 +639,8 @@ int main(){
 				}
 			}
 		}
+		delete[] input;
 	}
+	
 	return 0;
 }
