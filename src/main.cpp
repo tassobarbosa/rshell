@@ -11,6 +11,8 @@
 using namespace std;
 
 static int *glob_flag;
+char * path[2048];
+int p_size= 0;
 
 //output login @ machine $
 void prompt(){
@@ -44,8 +46,40 @@ void prompt(){
 	}	
 }
 
-void execute(char *str[], int size){
-	
+int get_path(char *path[], int index){
+	index = 0;
+	string location = "PATH";
+	char *pch;
+	char * env = getenv(location.c_str());
+	pch = strtok(env, ":");
+
+	while (pch != NULL) {
+		path[index] = pch;
+		index++;
+		pch = strtok (NULL, ":");
+	}
+
+	path[index] = NULL;	
+	return index;
+}
+
+int my_exec(char *newstr[]){
+	int erro;
+	char *p = new char[1024];
+
+        for(int i = 0; i < p_size; i++) {
+        	strcpy(p, path[i]);
+                strcat(p, "/");
+                strcat(p, newstr[0]);	
+                erro = execv(p, newstr);
+        }
+
+	delete[] p;
+	return erro;
+}
+
+void execute(char *str[], int size, char *path[], int p_size){
+
 	char * newstr[512];
 	char * connector;
 	int i, j, aux;
@@ -93,8 +127,9 @@ void execute(char *str[], int size){
 			exit(1);
 		}
 		else if (pid == 0){
-			if (-1 == execvp(newstr[0], newstr)){
-				perror("There was an error");
+			//if (-1 == execvp(newstr[0], newstr)){
+			  if(-1 == my_exec(newstr)){
+				perror("There was an error");	
 				//flag 1 means, first command must be successfull to apply the second
 				if (*glob_flag == 1) *glob_flag = 2;
 				//flag 3 means, first command must be failed to apply the second
@@ -172,7 +207,8 @@ for(int i =0; i<3; i++){
 			}	
 		}
 		
-	if (execvp(newstr[0], newstr) == -1) 
+	if (execvp(newstr[0], newstr) == -1) 	
+	//if(-1 == my_exec(newstr))
 		perror("execvp 'out' failed");
 }
 
@@ -474,6 +510,10 @@ int main(){
 	char * str[512];
 	char * pch;
 
+
+	//return all the locations inside $PATH
+	p_size = get_path(path, p_size);	
+
 	while (true){
 		do{
 			//output login @ machine $
@@ -542,11 +582,15 @@ int main(){
 	glob_flag = (int*)mmap(NULL, sizeof *glob_flag, PROT_READ | PROT_WRITE,
 		MAP_SHARED | MAP_ANONYMOUS, -1, 0);
 
-
-		int pos = checkpipe(str, index);
-		if(pos!= -1) piping(pos, index, str);
-		else if(!checkline(str, index)) redirect(str, index);
-		else execute(str, index);		
+		
+		if (memcmp(str[0], "cd", 2) == 0){
+			cout<<"cd"<<endl;
+		}else{
+			int pos = checkpipe(str, index);
+			if(pos!= -1) piping(pos, index, str);
+			else if(!checkline(str, index)) redirect(str, index);
+			else execute(str, index, path, p_size);		
+		}
 	}
 	return 0;
 }
